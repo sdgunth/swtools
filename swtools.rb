@@ -12,6 +12,8 @@ configure :development do
   BetterErrors.application_root = File.expand_path('..', __FILE__)
 end
   
+require './models/Species'
+
 if ENV['DATABASE_URL']
   ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
 else
@@ -22,19 +24,20 @@ else
   )
 end
 
+rarity_coefficients = {"Common" => 24.0, "Uncommon" => 12.0, "Rare" => 4.0, "Super Rare" => 2.0, "Near-Mythical" => 1.0}
+
 get '/' do
   erb :frontpage
 end
 
-# Name: String
-# Status: {"Type" => bool}
-# Biology: {{"Size" => string,
-#             "Biology Type" => string,
-#             "Diet" => string,
-#             "Genders" => string,
-#             "Males per Female" => double,
-#             "Force Sensitivity" => string,
-#             "Lifespan" => string}
-#    }
-# Rarity and origin: {"Home Region" => string,
-#                     "Specific Region" => rarity string}
+def adjust_by_rarity(coefficient, species_probabilities, region)
+  all_species = Species.find(:all)
+  total = 0.0
+  all_species.each do |i|
+    unless i.name == "Human"
+      home = i.home_region
+      effective_rarity = i.rarities_by_region[home]
+      species_probabilities[i.name] *= rarity_coefficients[effective_rarity]
+    end
+  end
+end
