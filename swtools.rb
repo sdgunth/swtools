@@ -11,19 +11,30 @@ configure :development do
   # within the application:
   BetterErrors.application_root = File.expand_path('..', __FILE__)
 end
-
-#  TODO: Enable once databases are implemented 
-#  
-#if ENV['DATABASE_URL']
-#  ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
-#else
-#  ActiveRecord::Base.establish_connection(
-#    :adapter => 'sqlite3',
-#    :database => 'db/development.db',
-#    :encoding => 'utf8'
-#  )
-#end
+  
+if ENV['DATABASE_URL']
+  ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
+else
+  ActiveRecord::Base.establish_connection(
+    :adapter => 'sqlite3',
+    :database => 'db/development.db',
+    :encoding => 'utf8'
+  )
+end
 
 get '/' do
   erb :frontpage
 end
+
+# Name: String
+# Status: {"Type" => bool}
+# Biology: {{"Size" => string,
+#             "Biology Type" => string,
+#             "Diet" => string,
+#             "Genders" => string,
+#             "Males per Female" => double,
+#             "Force Sensitivity" => string,
+#             "Lifespan" => string}
+#    }
+# Rarity and origin: {"Home Region" => string,
+#                     "Specific Region" => rarity string}
