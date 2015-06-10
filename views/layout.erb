@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%= yield_content :page_title %>
+		<%= yield_content :extra_stylesheets %>
+		<link rel="stylesheet" href="/css/bootstrap.css">
+		<link rel="stylesheet" href="/css/layout-styling.css">
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/jquery.autosize.min.js"></script>
+		<script src="/js/layout.js"></script>
+		<%= yield_content :more_js %>
+		<script src="/js/bootstrap.js"></script>
+		<style>
+
+			<%= yield_content :extra_css %>
+		</style>
+	</head>
+<body>
+	<nav class="navbar" role="navigation">
+		<ul class="nav navbar-nav">
+			<li class="dropdown">
+				<ul class="dropdown-menu" role="menu">
+					<li>View</li>
+					<li class="dropdown-submenu">
+						<ul class="dropdown-menu" role="menu">
+							<li></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li class="dropdown">
+				<ul class="dropdown-menu" role="menu">
+					<li class="dropdown-submenu">
+						<ul class="dropdown-menu" role="menu">
+							<li></li>
+						</ul>
+					</li>				
+				</ul>
+			</li>
+		</ul>
+	</nav>
+	<%= yield %>
+</body>	
