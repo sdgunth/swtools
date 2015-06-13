@@ -1,0 +1,110 @@
+<% content_for :page_title do %>
+<title>Star Wars Tools - Random Species Selector</title>
+<% end %>
+
+<% content_for :extra_stylesheets do %>
+	<link rel="stylesheet" href="/css/bootstrap-slider.css">
+<% end %>
+
+<% content_for :extra_css do %>
+	.tab-pane div div .panel:first-child {
+		margin-top: 15px;
+	} 
+	#rarity_weight_slider {
+		width: 350px;
+	}
+	.slider-tick {
+		opacity: 1.0;
+	}
+	.slider-tick-label {
+		color: #FFFFFF;
+	}
+	.btn-group > .btn.btn-default.dropdown.single-button-dropdown {
+		background-color: #222222;
+		color: #FFFFFF;
+		border-radius: 10px;
+		border-width: 2px;
+		border-color: #1E3E5D;
+	}
+	.btn-group > .btn.btn-default.dropdown.single-button-dropdown:hover {
+		background-color: #333333;
+		border-color: #1E3E5D;
+	}
+	.btn-group .dropdown-menu {
+		background-color: #1A1A1A;
+		border-width: 2px;
+		border-color: #1E3E5D;
+	}
+	.btn-group .dropdown-menu li > a {
+		color: #FFFFFF;
+	}
+	.btn-group .dropdown-menu li > a:hover {
+		background-color: #333333;
+	}
+<% end %>
+
+<% content_for :more_js do %>
+	<script src="/js/bootstrap-slider.js"></script>
+	<script src="/js/species-select.js"></script>
+<% end %>
+
+<div class="container-fluid">
+	<div class="panel panel-primary super-panel">
+		<div class="panel-heading">Selection Criteria</div>
+		<div class="panel-body">
+			<ul class="nav nav-tabs" data-tabs="tabs">
+				<li class="active">
+					<a data-toggle="tab" href="#location_and_rarity">Location & Rarity</a>
+				</li>
+				<li>
+					<a data-toggle="tab" href="#social_status">Social Status</a>
+				</li>
+				<li>
+					<a data-toggle="tab" href="#physiology_and_biology">Physiology & Biology</a>
+				</li>
+				<li>
+					<a data-toggle="tab" href="#human_preferences">Human Preferences</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active fade in" id="location_and_rarity">
+					<div class="row-fluid">
+						<div class="col-lg-4">
+							<div class="panel panel-primary">
+								<div class="panel-heading">Galactic Location</div>
+								<div class="panel-body">
+									<div class="btn-group" id="location_select_button">
+										<button type="button" class="btn btn-default dropdown single-button-dropdown" data-toggle="dropdown" aria-expanded="false">
+											<span id="selected_region">(Select)</span><span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><a href="#">Deep Core</a></li>
+											<li><a href="#">Galactic Core</a></li>
+											<li><a href="#">Colonies</a></li>
+											<li><a href="#">Inner Rim</a></li>
+											<li><a href="#">Expansion Region</a></li>
+											<li><a href="#">Mid Rim</a></li>
+											<li><a href="#">Outer Rim</a></li>
+											<li><a href="#">Wild Space</a></li>
+											<li><a href="#">Tingel Arm</a></li>
+											<li><a href="#">Unknown Regions</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-8">
+							<div class="panel panel-primary">
+								<div class="panel-heading">Rarity Weighting</div>
+								<div class="panel-body">
+									<input type="text" class="form-control" id="rarity_weight" data-slider-min="0" data-slider-max="5" data-slider-step="1" data-slider-value="3"/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button class="btn btn-default">Generate</button>
+</div>
