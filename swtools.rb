@@ -36,6 +36,11 @@ get '/generators/species-select' do
   erb :species_select
 end
 
+get '/api/generators/species-select' do
+  content_type :json
+  "Hutt".to_json
+end
+
 # rarity_factor is an integer, indicating how strongly weighting toward rarity should be a thing
 # species_probabilities is the hash containing relative distribution of each species
 # human_rarity is either "Ubiquitous" (40% flat), "Common" (Twi'lek rarity), or "None" (None)

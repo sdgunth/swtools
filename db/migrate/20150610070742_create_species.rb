@@ -12,6 +12,7 @@ class CreateSpecies < ActiveRecord::Migration
       t.string :home_region
       t.string :home_region_rarity
       t.string :rarities_by_region
+      t.string :wiki_link
     end
   end
 end

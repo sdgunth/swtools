@@ -7,10 +7,13 @@
 <% end %>
 
 <% content_for :extra_css do %>
-	.tab-pane div div .panel:first-child {
+	.tab-pane div div .panel:first-child, .tab-pane div .panel:first-child {
 		margin-top: 15px;
 	} 
 	#rarity_weight_slider {
+		width: 350px;
+	}
+	#human_prefs_slider {
 		width: 350px;
 	}
 	.slider-tick {
@@ -18,6 +21,8 @@
 	}
 	.slider-tick-label {
 		color: #FFFFFF;
+		width: auto;
+		height: auto;
 	}
 	.btn-group > .btn.btn-default.dropdown.single-button-dropdown {
 		background-color: #222222;
@@ -97,14 +102,26 @@
 							<div class="panel panel-primary">
 								<div class="panel-heading">Rarity Weighting</div>
 								<div class="panel-body">
-									<input type="text" class="form-control" id="rarity_weight" data-slider-min="0" data-slider-max="5" data-slider-step="1" data-slider-value="3"/>
+									<input type="text" id="rarity_weight" data-slider-min="0" data-slider-max="5" data-slider-step="1" data-slider-value="3"/>
 								</div>
 							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="human_preferences">
+					<div class="row-fluid">
+						<div class="col-lg-12">
+						<div class="panel panel-primary">
+							<div class="panel-heading">Human Preferences</div>
+							<div class="panel-body">
+								 	<input type="text" id="human_prefs" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="2"/>
+							</div>
+						</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<button class="btn btn-default">Generate</button>
+	<button class="btn btn-default" id="generate_button">Generate</button>
 </div>
