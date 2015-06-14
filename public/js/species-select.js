@@ -43,9 +43,16 @@ $(document).ready(function() {
 
 function generateSpecies() {
 	var get_url = "/api/generators/species-select";
+	var galactic_region;
+	if ($("#selected_region").text() == "(Select)") {
+		galactic_region = "Core Worlds";
+	} else {
+		galactic_region = $("#selected_region").text();
+	}
 	var gen_data = {
 		"rarity_prefs": $("#rarity_weight").slider('getValue'),
-		"human_prefs": $("#human_prefs").slider('getValue')
+		"human_prefs": $("#human_prefs").slider('getValue'),
+		"galactic_location": galactic_region
 	};
 	$.ajax({
 		url: get_url,
@@ -53,6 +60,11 @@ function generateSpecies() {
 		data: gen_data,
 		dataType: "json",
 	}).done(function(data) {
-		$("#generate_button").before($('<div class="panel panel-primary"><div class="panel-heading">Results</div><div class="panel-body"><a href="http://starwars.wikia.com/' + data + '">' + data + '</a></div></div>'));
+		if ($("#results_panel").length == 0) {
+			$("#generate_button").before($('<div id="results_panel" class="panel panel-primary"><div class="panel-heading">Results</div><div class="panel-body"><a href="http://starwars.wikia.com/wiki/' + data + '">' + data + '</a></div></div>'));
+		} else {
+			$("#results_panel > .panel-body > a").attr("href", "http://starwars.wikia.com/wiki/" + data);
+			$("#results_panel > .panel-body > a").text(data);
+		}
 	});
 }

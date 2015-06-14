@@ -26,7 +26,9 @@ end
 
 require './models/Species'
 
-rarity_coefficients = {"Common" => 24.0, "Uncommon" => 12.0, "Rare" => 4.0, "Super Rare" => 2.0, "Near-Mythical" => 1.0}
+before do
+  @rarity_coefficients = {"Common" => 48.0, "Uncommon" => 12.0, "Rare" => 4.0, "Super Rare" => 2.0, "Near-Mythical" => 1.0}
+end
 
 get '/' do
   erb :frontpage
@@ -37,15 +39,63 @@ get '/generators/species-select' do
 end
 
 get '/api/generators/species-select' do
+  if params[:human_prefs] == 0
+    human_prefs = "None"
+  elsif params[:human_prefs] == 1
+    human_prefs = "Common"
+  else
+    human_prefs = "Ubiquitous"
+  end
+  rarity_weight = params[:rarity_prefs].to_i
+  galactic_location = params[:galactic_location].to_s
+  puts galactic_location.to_s
+  
+  puts "params[:human_prefs] = " + params[:human_prefs].to_s
+  puts "human_prefs = " + human_prefs.to_s
+  chosen = select_species({:human_prefs => human_prefs, :rarity_weighting => rarity_weight, :region => galactic_location}).to_json
   content_type :json
-  "Hutt".to_json
+  chosen
+end
+
+def select_species(preferences)
+  initial_gen = species_basic_distribution()
+  puts "Human prefs are " + preferences[:human_prefs].to_s
+  species_probabilities = adjust_by_rarity(initial_gen[:species_records], preferences[:rarity_weighting], initial_gen[:species_probs], preferences[:region], preferences[:human_prefs])
+  total = 0.0
+  species_probabilities.each do |name, prob|
+    total += prob
+  end
+  rng = Random.new.rand(total)
+  last_name = ""
+  temp = 0.0
+  species_probabilities.each do |name, prob|
+    if (temp > rng)
+      puts "Human Probability is " + species_probabilities["Human"].to_s + " out of " + total.to_s
+      puts "Twi'lek Probability is" + species_probabilities["Twi'lek"].to_s + " out of " + total.to_s
+        puts "Winner was " + last_name + " at " + species_probabilities[last_name].to_s + " out of " + total.to_s
+      return last_name
+    else
+      last_name = name
+      temp += prob
+    end
+  end
+end
+
+# Generates the basic distribution, with all species at equal probability
+def species_basic_distribution()
+  all_species = Species.find(:all)
+  species_probabilities = {}
+  all_species.each do |i|
+    species_probabilities[i.name] = 1.0
+  end
+  return {:species_records => all_species, :species_probs => species_probabilities}
 end
 
 # rarity_factor is an integer, indicating how strongly weighting toward rarity should be a thing
 # species_probabilities is the hash containing relative distribution of each species
 # human_rarity is either "Ubiquitous" (40% flat), "Common" (Twi'lek rarity), or "None" (None)
-def adjust_by_rarity(rarity_factor, species_probabilities, region, human_rarity)
-  all_species = Species.find(:all)
+def adjust_by_rarity(all_species, rarity_factor, species_probabilities, region, human_rarity)
+  puts "Human Rarity is" + human_rarity.to_s
   total = 0.0
   # Iterate through all the species
   all_species.each do |i|
@@ -54,19 +104,22 @@ def adjust_by_rarity(rarity_factor, species_probabilities, region, human_rarity)
       home = i.home_region
       effective_rarity = i.rarities_by_region[home]
       # Multiply the probability of finding the species by the appropriate rarity coefficient for the region
-      species_probabilities[i.name] *= rarity_coefficients[effective_rarity]**(rarity_factor/3.0) 
+      mult = @rarity_coefficients[effective_rarity]**(rarity_factor/3.0)
+      species_probabilities[i.name] *= mult
       # Keep track of the total weighting
-      total += rarity_coefficients[effective_rarity]
+      total += @rarity_coefficients[effective_rarity]**(rarity_factor/3.0)
     end
   end
   # Set human rarity to 40% after the fact
   if human_rarity == "Ubiquitous"
+    puts "Multiplying human rarity by " + (total * 2.0/3.0).to_s + " of a possible " + total.to_s
     species_probabilities["Human"] *= total*(2.0/3.0)
   # Set humans to Twi'lek rarity if that's the setting selected
   elsif human_rarity == "Common"
-    species_probabilities["Human"] *= rarity_coefficients["Common"]**(rarity_factor/3.0)
+    species_probabilities["Human"] *= @rarity_coefficients["Common"]**(rarity_factor/3.0)
   # Set humans to 0 rarity otherwise
   else
     species_probabilities["Human"] *= 0.0
   end
+  return species_probabilities
 end

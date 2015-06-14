@@ -7,7 +7,7 @@ class CreateSpecies < ActiveRecord::Migration
       t.string :diet
       t.string :genders
       t.float :males_per_female
-      t.string :force_sensitivty
+      t.string :force_sensitivity
       t.string :lifespan
       t.string :home_region
       t.string :home_region_rarity
