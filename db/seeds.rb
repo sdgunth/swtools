@@ -8,9 +8,7 @@ species_array.each do |i|
   rarity = i['rarity and origin']
     
   new_spec = Species.new
-  puts "Adding name"
   new_spec[:name] = i['name']
-    puts "Adding social status"
   new_spec[:social_status] = i['social_status']
   new_spec[:size] = bio['size']
   new_spec[:diet] = bio['diet']
@@ -33,4 +31,5 @@ species_array.each do |i|
     "Unknown Regions" => rarity['unknown regions']
   }
   new_spec[:wiki_link] = 'http://starwars.wikia.com/wiki/' + i['name']
+  new_spec.save
 end
