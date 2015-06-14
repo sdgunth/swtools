@@ -31,6 +31,6 @@ species_array.each do |i|
     "Unknown Regions" => rarity['unknown regions']
   }
   new_spec[:wiki_link] = 'http://starwars.wikia.com/wiki/' + i['name']
-  puts ActiveRecord::Base.connection_config(:adapter)
+  puts ActiveRecord::Base.connection_config[:adapter]
   new_spec.save
 end
