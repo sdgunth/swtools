@@ -38,6 +38,7 @@ get '/generators/species-select' do
   erb :species_select
 end
 
+# TODO: Figure out why occasionally it gives 'object object' to the browser
 get '/api/generators/species-select' do
   if params[:human_prefs] == 0
     human_prefs = "None"
@@ -54,7 +55,7 @@ get '/api/generators/species-select' do
     initial_gen = species_basic_distribution(all_species)
     chosen << select_species({:human_prefs => human_prefs, :rarity_weighting => rarity_weight, :region => galactic_location}, initial_gen)
   end
-#  puts chosen
+  puts chosen.to_s
   content_type :json
   chosen.to_json
 end
