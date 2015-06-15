@@ -27,7 +27,7 @@ end
 require './models/Species'
 
 before do
-  @rarity_coefficients = {"Common" => 48.0, "Uncommon" => 12.0, "Rare" => 4.0, "Super Rare" => 2.0, "Near-Mythical" => 1.0}
+  @rarity_coefficients = {"Common" => 192.0, "Uncommon" => 48.0, "Rare" => 16.0, "Super Rare" => 8.0, "Near-Mythical" => 1.0}
 end
 
 get '/' do
