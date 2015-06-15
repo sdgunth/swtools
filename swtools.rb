@@ -71,7 +71,7 @@ def select_species(preferences, initial_gen)
   last_name = ""
   temp = 0.0
   species_probabilities.each do |name, prob|
-    if (temp > rng)
+    if (temp >= rng)
 #      puts "Human Probability is " + species_probabilities["Human"].to_s + " out of " + total.to_s
 #      puts "Twi'lek Probability is" + species_probabilities["Twi'lek"].to_s + " out of " + total.to_s
 #      puts "Winner was " + last_name + " at " + species_probabilities[last_name].to_s + " out of " + total.to_s
@@ -81,6 +81,7 @@ def select_species(preferences, initial_gen)
       temp += prob
     end
   end
+  STDERR.puts("rng = " + rng + ", total = " + total)
 end
 
 # Generates the basic distribution, with all species at equal probability
