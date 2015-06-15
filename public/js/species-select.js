@@ -1,5 +1,3 @@
-
-
 // Enables the rarity weighting slider
 $(document).ready(function() {
 	$("#rarity_weight").slider({
@@ -34,14 +32,23 @@ $(document).ready(function() {
 	});
 });
 
-// Enables the generate button
+// Makes the number of results button work
 $(document).ready(function() {
-	$("#generate_button").click(function() {
-		var generated = generateSpecies();
+	$regions = $("#num_results_button > ul").children();
+	$regions.click(function() {
+		$("#number_of_results").text($(this).contents().text());
 	});
 });
 
-function generateSpecies() {
+// Enables the generate button
+$(document).ready(function() {
+	$("#generate_button").click(function() {
+		var generated = generateSpecies(Number($("#number_of_results").text()));
+	});
+});
+
+function generateSpecies(num) {
+	var selections = [];
 	var get_url = "/api/generators/species-select";
 	var galactic_region;
 	if ($("#selected_region").text() == "(Select)") {
@@ -52,7 +59,8 @@ function generateSpecies() {
 	var gen_data = {
 		"rarity_prefs": $("#rarity_weight").slider('getValue'),
 		"human_prefs": $("#human_prefs").slider('getValue'),
-		"galactic_location": galactic_region
+		"galactic_location": galactic_region,
+		"num_species": num
 	};
 	$.ajax({
 		url: get_url,
@@ -60,11 +68,16 @@ function generateSpecies() {
 		data: gen_data,
 		dataType: "json",
 	}).done(function(data) {
+		for (i = 0; i < num; i++) {
+			selections.push($('<p><a href="http://starwars.wikia.com/wiki/' + data[i] + '" target="_blank">' + data[i] + '</a></p>'));
+		}
 		if ($("#results_panel").length == 0) {
-			$("#generate_button").before($('<div id="results_panel" class="panel panel-primary"><div class="panel-heading">Results</div><div class="panel-body"><a href="http://starwars.wikia.com/wiki/' + data + '">' + data + '</a></div></div>'));
+			$("#num_results_button").before($('<div id="results_panel" class="panel panel-primary"><div class="panel-heading">Results</div><div class="panel-body"></div></div>'));
 		} else {
-			$("#results_panel > .panel-body > a").attr("href", "http://starwars.wikia.com/wiki/" + data);
-			$("#results_panel > .panel-body > a").text(data);
+			$("#results_panel > .panel-body").empty();
+		}
+		for (i = 0; i < num; i++) {
+			$("#results_panel > .panel-body").append(selections[i]);
 		}
 	});
 }

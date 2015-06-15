@@ -48,18 +48,19 @@ get '/api/generators/species-select' do
   end
   rarity_weight = params[:rarity_prefs].to_i
   galactic_location = params[:galactic_location].to_s
-  puts galactic_location.to_s
-  
-  puts "params[:human_prefs] = " + params[:human_prefs].to_s
-  puts "human_prefs = " + human_prefs.to_s
-  chosen = select_species({:human_prefs => human_prefs, :rarity_weighting => rarity_weight, :region => galactic_location}).to_json
+  chosen = []
+  all_species = Species.all
+  for i in 0..params[:num_species].to_i
+    initial_gen = species_basic_distribution(all_species)
+    chosen << select_species({:human_prefs => human_prefs, :rarity_weighting => rarity_weight, :region => galactic_location}, initial_gen)
+  end
+#  puts chosen
   content_type :json
-  chosen
+  chosen.to_json
 end
 
-def select_species(preferences)
-  initial_gen = species_basic_distribution()
-  puts "Human prefs are " + preferences[:human_prefs].to_s
+def select_species(preferences, initial_gen)
+#  puts "Human prefs are " + preferences[:human_prefs].to_s
   species_probabilities = adjust_by_rarity(initial_gen[:species_records], preferences[:rarity_weighting], initial_gen[:species_probs], preferences[:region], preferences[:human_prefs])
   total = 0.0
   species_probabilities.each do |name, prob|
@@ -70,9 +71,9 @@ def select_species(preferences)
   temp = 0.0
   species_probabilities.each do |name, prob|
     if (temp > rng)
-      puts "Human Probability is " + species_probabilities["Human"].to_s + " out of " + total.to_s
-      puts "Twi'lek Probability is" + species_probabilities["Twi'lek"].to_s + " out of " + total.to_s
-        puts "Winner was " + last_name + " at " + species_probabilities[last_name].to_s + " out of " + total.to_s
+#      puts "Human Probability is " + species_probabilities["Human"].to_s + " out of " + total.to_s
+#      puts "Twi'lek Probability is" + species_probabilities["Twi'lek"].to_s + " out of " + total.to_s
+#      puts "Winner was " + last_name + " at " + species_probabilities[last_name].to_s + " out of " + total.to_s
       return last_name
     else
       last_name = name
@@ -82,8 +83,7 @@ def select_species(preferences)
 end
 
 # Generates the basic distribution, with all species at equal probability
-def species_basic_distribution()
-  all_species = Species.find(:all)
+def species_basic_distribution(all_species)
   species_probabilities = {}
   all_species.each do |i|
     species_probabilities[i.name] = 1.0
@@ -95,7 +95,7 @@ end
 # species_probabilities is the hash containing relative distribution of each species
 # human_rarity is either "Ubiquitous" (40% flat), "Common" (Twi'lek rarity), or "None" (None)
 def adjust_by_rarity(all_species, rarity_factor, species_probabilities, region, human_rarity)
-  puts "Human Rarity is" + human_rarity.to_s
+#  puts "Human Rarity is" + human_rarity.to_s
   total = 0.0
   # Iterate through all the species
   all_species.each do |i|
@@ -112,7 +112,7 @@ def adjust_by_rarity(all_species, rarity_factor, species_probabilities, region, 
   end
   # Set human rarity to 40% after the fact
   if human_rarity == "Ubiquitous"
-    puts "Multiplying human rarity by " + (total * 2.0/3.0).to_s + " of a possible " + total.to_s
+#    puts "Multiplying human rarity by " + (total * 2.0/3.0).to_s + " of a possible " + total.to_s
     species_probabilities["Human"] *= total*(2.0/3.0)
   # Set humans to Twi'lek rarity if that's the setting selected
   elsif human_rarity == "Common"
