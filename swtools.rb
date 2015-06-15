@@ -55,7 +55,7 @@ get '/api/generators/species-select' do
     initial_gen = species_basic_distribution(all_species)
     chosen << select_species({:human_prefs => human_prefs, :rarity_weighting => rarity_weight, :region => galactic_location}, initial_gen)
   end
-  puts chosen.to_s
+  STDERR.puts chosen.to_s
   content_type :json
   chosen.to_json
 end
