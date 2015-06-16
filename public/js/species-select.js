@@ -1,5 +1,6 @@
-// Enables the rarity weighting slider
+// Enables the sliders (#rarity_weight and #human_prefs)
 $(document).ready(function() {
+	// Rarity weight slider
 	$("#rarity_weight").slider({
 		id: "rarity_weight_slider",
 		tooltip: "hide",
@@ -7,10 +8,8 @@ $(document).ready(function() {
 	    ticks_labels: ["Ignore", "Minimal", "Mild", "Moderate", "Strong", "Strongest"],
 	    ticks_snap_bounds: 0.5
 	});
-});
-
-//Enables the human preferences slider
-$(document).ready(function() {
+	
+	// Human prefs slider
 	$("#human_prefs").slider({
 		id: "human_prefs_slider",
 		tooltip: "hide",
@@ -19,25 +18,39 @@ $(document).ready(function() {
 		ticks_snap_bounds: 0.5,
 		value: 2
 	});
+	// Makes it so the slider actually displays properly in hidden tabs
 	$("#human_prefs_slider").attr("style", "margin-bottom: 24px;");
 	$("#human_prefs_slider .slider-tick-label").attr("style", "width: 175px;");
 	$("#human_prefs_slider .slider-tick-label-container").attr("style", "margin-left: -87.5px;");
 });
 
-// Sets all the galactic regions to change the label text
+// Makes the dropdown buttons work (#location_select_button and #num_results_button)
 $(document).ready(function() {
+	// Location Select button
 	$regions = $("#location_select_button > ul").children();
 	$regions.click(function() {
 		$("#selected_region").text($(this).contents().text());
 	});
-});
-
-// Makes the number of results button work
-$(document).ready(function() {
+	
+	// Num Results button
 	$regions = $("#num_results_button > ul").children();
 	$regions.click(function() {
 		$("#number_of_results").text($(this).contents().text());
 	});
+});
+
+// Enables the switches
+$(document).ready(function() {
+	var social_statuses = ['liked', 'respected', 'beloved', 'enslaved', 'denigrated', 'feared', 'hated', 'neutral', 'mysterious'];
+	for (var i = 0; i < social_statuses.length; i++) {
+		$("#" + social_statuses[i] + "_forced_radio").bootstrapSwitch();
+		$("#" + social_statuses[i] + "_disabled_radio").bootstrapSwitch();
+	}
+//	var $liked_forced_checkbox = $("#liked_forced_checkbox").bootstrapSwitch();
+//	var $liked_disabled_checkbox = $("#liked_disabled_checkbox").bootstrapSwitch();
+//	$("#liked_forced_checkbox").click(function() {
+//		if $("#liked_disabled_checkbox").
+//	});
 });
 
 // Enables the generate button

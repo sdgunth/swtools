@@ -46,6 +46,21 @@
 	.btn-group .dropdown-menu li > a:hover {
 		background-color: #333333;
 	}
+	.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
+		color: #FFFFFF;
+		background: #222222 none repeat scroll 0% 0%;
+	}
+	.bootstrap-switch .bootstrap-switch-label {
+		background: #3A3A3A none repeat scroll 0% 0%;
+	}
+	.bootstrap-switch.bootstrap-switch-wrapper {
+		border: 2px solid #1A5086;
+	}
+	.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-default, 
+	.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default {
+		color: #FFFFFF;
+		background: #666666 none repeat scroll 0% 0%;
+	}
 <% end %>
 
 <% content_for :more_js do %>
@@ -94,7 +109,7 @@
 											<li><a href="#">Tingel Arm</a></li>
 											<li><a href="#">Unknown Regions</a></li>
 										</ul>
-									</div>
+									</div>									
 								</div>
 							</div>
 						</div>
@@ -108,13 +123,122 @@
 						</div>
 					</div>
 				</div>
+				<div class="tab-pane fade" id="social_status">
+					<div class="row-fluid">
+						<div class="col-lg-4">
+							<div class="panel panel-primary">
+								<div class="panel-heading">Liked</div>
+								<div class="panel-body">
+									<div class="col-lg-6">
+										<input type="radio" name="liked_radio" id="liked_forced_radio" data-radio-all-off="true" data-on-text="Required" data-off-text="Optional" data-label-width="10" data-size="small">
+									</div>
+									<div class="col-lg-6">
+										<input type="radio" name="liked_radio" id="liked_disabled_radio" data-radio-all-off="true" data-on-text="Disallowed" data-off-text="Allowed" data-label-width="10" data-size="small">									
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-primary">
+								<div class="panel-heading">Respected</div>
+								<div class="panel-body">
+									<div class="col-lg-6">
+										<input type="radio" name="respected_radio" id="respected_forced_radio" data-radio-all-off="true" data-on-text="Required" data-off-text="Optional" data-label-width="10" data-size="small">
+									</div>
+									<div class="col-lg-6">
+										<input type="radio" name="respected_radio" id="respected_disabled_radio" data-radio-all-off="true" data-on-text="Disallowed" data-off-text="Allowed" data-label-width="10" data-size="small">
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-primary">
+								<div class="panel-heading">Beloved</div>
+								<div class="panel-body">
+									<div class="col-lg-6">
+										<input type="radio" name="beloved_radio" id="beloved_forced_radio" data-radio-all-off="true" data-on-text="Required" data-off-text="Optional" data-label-width="10" data-size="small">
+									</div>
+									<div class="col-lg-6">
+										<input type="radio" name="beloved_radio" id="beloved_disabled_radio" data-radio-all-off="true" data-on-text="Disallowed" data-off-text="Allowed" data-label-width="10" data-size="small">	
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="panel panel-primary">
+								<div class="panel-heading">Enslaved</div>
+								<div class="panel-body">
+									<div class="col-lg-6">
+										<input type="radio" name="enslaved_radio" id="enslaved_forced_radio" data-radio-all-off="true" data-on-text="Required" data-off-text="Optional" data-label-width="10" data-size="small">
+									</div>
+									<div class="col-lg-6">
+										<input type="radio" name="enslaved_radio" id="enslaved_disabled_radio" data-radio-all-off="true" data-on-text="Disallowed" data-off-text="Allowed" data-label-width="10" data-size="small">									
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-primary">
+								<div class="panel-heading">Denigrated</div>
+								<div class="panel-body">
+									<div class="col-lg-6">
+										<input type="radio" name="denigrated_radio" id="denigrated_forced_radio" data-radio-all-off="true" data-on-text="Required" data-off-text="Optional" data-label-width="10" data-size="small">
+									</div>
+									<div class="col-lg-6">
+										<input type="radio" name="denigrated_radio" id="denigrated_disabled_radio" data-radio-all-off="true" data-on-text="Disallowed" data-off-text="Allowed" data-label-width="10" data-size="small">
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-primary">
+								<div class="panel-heading">Feared</div>
+								<div class="panel-body">
+									<div class="col-lg-6">
+										<input type="radio" name="feared_radio" id="feared_forced_radio" data-radio-all-off="true" data-on-text="Required" data-off-text="Optional" data-label-width="10" data-size="small">
+									</div>
+									<div class="col-lg-6">
+										<input type="radio" name="feared_radio" id="feared_disabled_radio" data-radio-all-off="true" data-on-text="Disallowed" data-off-text="Allowed" data-label-width="10" data-size="small">	
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-primary">
+								<div class="panel-heading">Hated</div>
+								<div class="panel-body">
+									<div class="col-lg-6">
+										<input type="radio" name="hated_radio" id="hated_forced_radio" data-radio-all-off="true" data-on-text="Required" data-off-text="Optional" data-label-width="10" data-size="small">
+									</div>
+									<div class="col-lg-6">
+										<input type="radio" name="hated_radio" id="hated_disabled_radio" data-radio-all-off="true" data-on-text="Disallowed" data-off-text="Allowed" data-label-width="10" data-size="small">	
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="panel panel-primary">
+								<div class="panel-heading">Neutral</div>
+								<div class="panel-body">
+									<div class="col-lg-6">
+										<input type="radio" name="neutral_radio" id="neutral_forced_radio" data-radio-all-off="true" data-on-text="Required" data-off-text="Optional" data-label-width="10" data-size="small">
+									</div>
+									<div class="col-lg-6">
+										<input type="radio" name="neutral_radio" id="neutral_disabled_radio" data-radio-all-off="true" data-on-text="Disallowed" data-off-text="Allowed" data-label-width="10" data-size="small">	
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-primary">
+								<div class="panel-heading">Mysterious</div>
+								<div class="panel-body">
+									<div class="col-lg-6">
+										<input type="radio" name="mysterious_radio" id="mysterious_forced_radio" data-radio-all-off="true" data-on-text="Required" data-off-text="Optional" data-label-width="10" data-size="small">
+									</div>
+									<div class="col-lg-6">
+										<input type="radio" name="mysterious_radio" id="mysterious_disabled_radio" data-radio-all-off="true" data-on-text="Disallowed" data-off-text="Allowed" data-label-width="10" data-size="small">	
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="tab-pane fade" id="human_preferences">
 					<div class="row-fluid">
 						<div class="col-lg-12">
 						<div class="panel panel-primary">
 							<div class="panel-heading">Human Preferences</div>
 							<div class="panel-body">
-								 	<input type="text" id="human_prefs" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="2"/>
+							 	<input type="text" id="human_prefs" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="2"/>
 							</div>
 						</div>
 						</div>

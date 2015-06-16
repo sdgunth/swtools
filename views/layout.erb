@@ -2,16 +2,17 @@
 <html lang="en">
 	<head>
 		<%= yield_content :page_title %>
-		<%= yield_content :extra_stylesheets %>
 		<link rel="stylesheet" href="/css/bootstrap.css">
+		<link rel="stylesheet" href="/css/bootstrap-switch.min.css">
 		<link rel="stylesheet" href="/css/layout-styling.css">
+		<%= yield_content :extra_stylesheets %>
 		<script src="/js/jquery.min.js"></script>
 		<script src="/js/jquery.autosize.min.js"></script>
 		<script src="/js/layout.js"></script>
 		<%= yield_content :more_js %>
 		<script src="/js/bootstrap.js"></script>
+		<script src="/js/bootstrap-switch.min.js"></script>
 		<style>
-
 			<%= yield_content :extra_css %>
 		</style>
 	</head>
