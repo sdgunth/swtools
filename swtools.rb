@@ -118,7 +118,7 @@ def select_species(preferences)
   #      puts "Human Probability is " + species_probabilities["Human"].to_s + " out of " + total.to_s
   #      puts "Twi'lek Probability is" + species_probabilities["Twi'lek"].to_s + " out of " + total.to_s
   #      puts "Winner was " + last_name + " at " + species_probabilities[last_name].to_s + " out of " + total.to_s
-        return [last_name, @all_species.name(last_name).wiki_link]
+        return [last_name, @all_species.where(:name => last_name).take().wiki_link]
       else
         last_name = name
         temp += prob
