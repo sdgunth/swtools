@@ -1,3 +1,5 @@
+var social_statuses = ['Liked', 'Respected', 'Beloved', 'Enslaved', 'Denigrated', 'Feared', 'Hated', 'Neutral', 'Mysterious'];
+
 // Enables the sliders (#rarity_weight and #human_prefs)
 $(document).ready(function() {
 	// Rarity weight slider
@@ -41,10 +43,10 @@ $(document).ready(function() {
 
 // Enables the switches
 $(document).ready(function() {
-	var social_statuses = ['liked', 'respected', 'beloved', 'enslaved', 'denigrated', 'feared', 'hated', 'neutral', 'mysterious'];
 	for (var i = 0; i < social_statuses.length; i++) {
-		$("#" + social_statuses[i] + "_forced_radio").bootstrapSwitch();
-		$("#" + social_statuses[i] + "_disabled_radio").bootstrapSwitch();
+		var temp = social_statuses[i].toLowerCase();
+		$("#" + temp + "_forced_radio").bootstrapSwitch();
+		$("#" + temp + "_disabled_radio").bootstrapSwitch();
 	}
 //	var $liked_forced_checkbox = $("#liked_forced_checkbox").bootstrapSwitch();
 //	var $liked_disabled_checkbox = $("#liked_disabled_checkbox").bootstrapSwitch();
@@ -60,6 +62,28 @@ $(document).ready(function() {
 	});
 });
 
+function socialStatus() {
+	// True if the trait in the key-value pair has no deciding factors, false otherwise
+	var is_choice = [];
+	// True if the trait is required, false if it is disallowed
+	var restriction = [];
+	for (var i = 0; i < social_statuses.length; i++) {
+		var temp = social_statuses[i].toLowerCase();
+		if ($("#" + temp + "_forced_radio").bootstrapSwitch('state')) {
+			is_choice[i] = false;
+			restriction[i] = true;
+		} else if ($("#" + temp + "_disabled_radio").bootstrapSwitch('state')) {
+			is_choice[i] = false;
+			restriction[i] = false;
+		} else {
+			is_choice[i] = true;
+			restriction[i] = false;
+		}
+	}
+	var results = [is_choice, restriction];
+	return results;
+}
+
 function generateSpecies(num) {
 	var selections = [];
 	var get_url = "/api/generators/species-select";
@@ -73,7 +97,8 @@ function generateSpecies(num) {
 		"rarity_prefs": $("#rarity_weight").slider('getValue'),
 		"human_prefs": $("#human_prefs").slider('getValue'),
 		"galactic_location": galactic_region,
-		"num_species": num
+		"num_species": num,
+		"social_statuses": socialStatus()
 	};
 	$.ajax({
 		url: get_url,
@@ -81,8 +106,10 @@ function generateSpecies(num) {
 		data: gen_data,
 		dataType: "json",
 	}).done(function(data) {
+		console.log(data);
+		console.log(data.length);
 		for (i = 0; i < num; i++) {
-			selections.push($('<p><a href="http://starwars.wikia.com/wiki/' + data[i] + '" target="_blank">' + data[i] + '</a></p>'));
+			selections.push($('<p><a href="http://starwars.wikia.com/wiki/' + data[i][1] + '" target="_blank">' + data[i][0] + '</a></p>'));
 		}
 		if ($("#results_panel").length == 0) {
 			$("#num_results_button").before($('<div id="results_panel" class="panel panel-primary"><div class="panel-heading">Results</div><div class="panel-body"></div></div>'));

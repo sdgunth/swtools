@@ -3,12 +3,21 @@ class CreateSpecies < ActiveRecord::Migration
     create_table :species do |t|
       t.string :name
       if ActiveRecord::Base.connection_config[:adapter] == 'sqlite3'
-        t.string :social_status
         t.string :rarities_by_region
       else
-        t.hstore :social_status
         t.hstore :rarities_by_region
       end
+      # Social Statuses
+      t.boolean :liked
+      t.boolean :respected
+      t.boolean :beloved
+      t.boolean :enslaved
+      t.boolean :denigrated
+      t.boolean :feared
+      t.boolean :hated
+      t.boolean :mysterious
+      t.boolean :neutral
+
       t.string :size
       t.string :diet
       t.string :genders

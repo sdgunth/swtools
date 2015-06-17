@@ -40,6 +40,7 @@ end
 
 # TODO: Figure out why occasionally it gives 'object object' to the browser
 get '/api/generators/species-select' do
+  # Convert string boolean arguments to real boolean arguments.
   if params[:human_prefs] == 0
     human_prefs = "None"
   elsif params[:human_prefs] == 1
@@ -47,60 +48,104 @@ get '/api/generators/species-select' do
   else
     human_prefs = "Ubiquitous"
   end
+  puts params[:social_statuses].to_s
   rarity_weight = params[:rarity_prefs].to_i
   galactic_location = params[:galactic_location].to_s
-  chosen = []
-  all_species = Species.all
-  for i in 0..params[:num_species].to_i
-    initial_gen = species_basic_distribution(all_species)
-    chosen << select_species({:human_prefs => human_prefs, :rarity_weighting => rarity_weight, :region => galactic_location}, initial_gen)
+  @chosen = []
+  @all_species = generate_species(params[:social_statuses])
+  for i in 0...params[:num_species].to_i
+    species_probs = species_basic_distribution
+    @chosen << select_species({:human_prefs => human_prefs, :rarity_weighting => rarity_weight, :region => galactic_location, :species_probs => species_probs})
   end
-  STDERR.puts chosen.to_s
+  STDERR.puts @chosen.to_s
   content_type :json
-  chosen.to_json
+  @chosen.to_json
 end
 
-def select_species(preferences, initial_gen)
+# Generates species, ensuring restrictions are followed
+def generate_species(social_status)
+  parse_for_true(social_status["0"])
+  parse_for_true(social_status["1"])
+  # Parsing social status variables
+  social_statuses = [:liked, :respected, :beloved, :enslaved, :denigrated, :feared, :hated, :neutral, :mysterious]
+  is_social_freedom = social_status["0"]
+  puts is_social_freedom.to_s
+  social_restriction_type = social_status["1"]
+
+  # If there are no restrictions, return all the species
+  if ((is_social_freedom.include? false) == false)
+    return Species.all
+  end
+  
+  # Leave only the restrictions to be used
+  while is_social_freedom.include? true
+    ind = is_social_freedom.index(true)
+    social_statuses.delete_at(ind)
+    social_restriction_type.delete_at(ind)
+    is_social_freedom.delete_at(ind)
+  end
+  
+  # Make the social restrictions hash
+  args = ''
+  social_hash = {}
+  iterator = 'var_01'
+  social_statuses.each_index do |i|
+    if i > 0
+      args << ' and '
+    end
+    args << social_statuses[i].to_s << ' = :' << iterator
+    social_hash[iterator.to_sym] = social_restriction_type[i]
+    iterator.next
+  end
+  
+  return Species.where(args, social_hash)
+end
+
+def select_species(preferences)
 #  puts "Human prefs are " + preferences[:human_prefs].to_s
-  species_probabilities = adjust_by_rarity(initial_gen[:species_records], preferences[:rarity_weighting], initial_gen[:species_probs], preferences[:region], preferences[:human_prefs])
+  species_probabilities = adjust_by_rarity(preferences[:rarity_weighting], preferences[:species_probs], preferences[:region], preferences[:human_prefs])
   total = 0.0
   species_probabilities.each do |name, prob|
     total += prob
   end
-  rng = Random.new.rand(total)
-  last_name = ""
-  temp = 0.0
-  species_probabilities.each do |name, prob|
-    if (temp >= rng)
-#      puts "Human Probability is " + species_probabilities["Human"].to_s + " out of " + total.to_s
-#      puts "Twi'lek Probability is" + species_probabilities["Twi'lek"].to_s + " out of " + total.to_s
-#      puts "Winner was " + last_name + " at " + species_probabilities[last_name].to_s + " out of " + total.to_s
-      return last_name
-    else
-      last_name = name
-      temp += prob
+  # If no species match the requirements, say so
+  if total > 0.0
+    rng = Random.new.rand(total)      
+    last_name = ""
+    temp = 0.0
+    species_probabilities.each do |name, prob|
+      if (temp >= rng)
+  #      puts "Human Probability is " + species_probabilities["Human"].to_s + " out of " + total.to_s
+  #      puts "Twi'lek Probability is" + species_probabilities["Twi'lek"].to_s + " out of " + total.to_s
+  #      puts "Winner was " + last_name + " at " + species_probabilities[last_name].to_s + " out of " + total.to_s
+        return [last_name, @all_species.name(last_name).wiki_link]
+      else
+        last_name = name
+        temp += prob
+      end
     end
+  else
+    return ["None Matching", ""]
   end
-  STDERR.puts("rng = " + rng + ", total = " + total)
 end
 
 # Generates the basic distribution, with all species at equal probability
-def species_basic_distribution(all_species)
+def species_basic_distribution
   species_probabilities = {}
-  all_species.each do |i|
+  @all_species.each do |i|
     species_probabilities[i.name] = 1.0
   end
-  return {:species_records => all_species, :species_probs => species_probabilities}
+  return species_probabilities
 end
 
 # rarity_factor is an integer, indicating how strongly weighting toward rarity should be a thing
 # species_probabilities is the hash containing relative distribution of each species
 # human_rarity is either "Ubiquitous" (40% flat), "Common" (Twi'lek rarity), or "None" (None)
-def adjust_by_rarity(all_species, rarity_factor, species_probabilities, region, human_rarity)
+def adjust_by_rarity(rarity_factor, species_probabilities, region, human_rarity)
 #  puts "Human Rarity is" + human_rarity.to_s
   total = 0.0
   # Iterate through all the species
-  all_species.each do |i|
+  @all_species.each do |i|
     # Ignore this if it's humans
     unless i.name == "Human"
       home = i.home_region
@@ -113,15 +158,43 @@ def adjust_by_rarity(all_species, rarity_factor, species_probabilities, region, 
     end
   end
   # Set human rarity to 40% after the fact
-  if human_rarity == "Ubiquitous"
-#    puts "Multiplying human rarity by " + (total * 2.0/3.0).to_s + " of a possible " + total.to_s
-    species_probabilities["Human"] *= total*(2.0/3.0)
-  # Set humans to Twi'lek rarity if that's the setting selected
-  elsif human_rarity == "Common"
-    species_probabilities["Human"] *= @rarity_coefficients["Common"]**(rarity_factor/3.0)
-  # Set humans to 0 rarity otherwise
-  else
-    species_probabilities["Human"] *= 0.0
+  unless species_probabilities["Human"] == nil
+    if human_rarity == "Ubiquitous"
+  #    puts "Multiplying human rarity by " + (total * 2.0/3.0).to_s + " of a possible " + total.to_s
+      species_probabilities["Human"] *= total*(2.0/3.0)
+    # Set humans to Twi'lek rarity if that's the setting selected
+    elsif human_rarity == "Common"
+      species_probabilities["Human"] *= @rarity_coefficients["Common"]**(rarity_factor/3.0)
+    # Set humans to 0 rarity otherwise
+    else
+      species_probabilities["Human"] *= 0.0
+    end
   end
   return species_probabilities
+end
+
+# Converts string values of 'true' and 'True' into boolean 'true' and same for falses
+# WARNING: Doesn't work on nested arrays or hashes
+def parse_for_true(args)
+  # If it's a hash, recurse
+  if args.class == Hash
+    hash_keys = args.keys
+    for i in 0...args.length
+      args[hash_keys[i]] = parse_for_true(args[hash_keys[i]])
+    end
+  # If it's an array, recurse
+  elsif args.class == Array
+    for i in 0...args.length
+      args[i] = parse_for_true(args[i])
+    end
+  # If it is a single object, evaluate for falsiness
+  else
+    if args == "true" || args == "True"
+      return true
+    elsif args == "false" || args == "False"
+      return false
+    else
+      return args
+    end
+  end
 end

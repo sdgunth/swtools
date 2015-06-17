@@ -186,7 +186,7 @@
 		"feared" : "true",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Exotic",
@@ -291,7 +291,7 @@
 		"feared" : "true",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -606,7 +606,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Small",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -839,7 +839,7 @@
 		"unknown regions" : "Near-Mythical"}
 },
 {
-	"name" : "Bpffashi",
+	"name" : "Bpfasshi",
 	"social status" : {
 		"neutral" : "true",
 		"liked" : "false",
@@ -851,7 +851,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -1201,7 +1201,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -1271,7 +1271,7 @@
 		"feared" : "true",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -1621,7 +1621,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -1936,7 +1936,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -2111,7 +2111,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Large",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -2181,7 +2181,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -2321,7 +2321,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -2391,7 +2391,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -2426,7 +2426,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -3091,7 +3091,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -3336,7 +3336,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Large",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -3371,7 +3371,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Exotic",
 		"diet" : "Omnivore",
@@ -3826,7 +3826,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -3861,7 +3861,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -3896,7 +3896,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -4420,7 +4420,7 @@
 		"feared" : "true",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -4455,7 +4455,7 @@
 		"feared" : "true",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -4525,7 +4525,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Exotic",
 		"diet" : "Omnivore",
@@ -4630,7 +4630,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -4840,7 +4840,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -5050,7 +5050,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -5120,7 +5120,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -5330,7 +5330,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -5435,7 +5435,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -5645,7 +5645,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -5750,7 +5750,7 @@
 		"feared" : "true",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -5855,7 +5855,7 @@
 		"feared" : "true",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -6240,7 +6240,7 @@
 		"feared" : "true",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Large",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -6345,7 +6345,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -6575,7 +6575,8 @@
 		"outer rim territories" : "Rare",
 		"wild space" : "Rare",
 		"tingel arm" : "Rare",
-		"unknown regions" : "Super Rare"}
+		"unknown regions" : "Super Rare"},
+	"wiki link" : "T'landa Til"
 },
 {
 	"name" : "Sylphe",
@@ -6695,7 +6696,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -6730,7 +6731,7 @@
 		"feared" : "true",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -7010,7 +7011,7 @@
 		"feared" : "true",
 		"hated" : "true"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -7080,7 +7081,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Exotic",
 		"diet" : "Omnivore",
@@ -7313,7 +7314,7 @@
 		"unknown regions" : "Near-Mythical"}
 },
 {
-	"name" : "Manaan",
+	"name" : "Selkath",
 	"social status" : {
 		"neutral" : "true",
 		"liked" : "false",
@@ -7327,7 +7328,7 @@
 	"biology" : {
 		"bodily structure" : "Bipedal",
 		"size" : "Average",
-		"biology type" : "Mammal",
+		"biology type" : "Amphibious",
 		"diet" : "Omnivore",
 		"genders" : "Standard Binary",
 		"males per female" : "1",
@@ -7605,7 +7606,7 @@
 		"feared" : "true",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -7990,7 +7991,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -8025,7 +8026,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -8200,7 +8201,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -8550,7 +8551,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Small",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -8725,7 +8726,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -8760,7 +8761,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -8900,7 +8901,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -8935,7 +8936,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -9250,7 +9251,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -9320,7 +9321,7 @@
 		"feared" : "true",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -10055,7 +10056,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Large",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -10125,7 +10126,7 @@
 		"feared" : "true",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
@@ -10160,7 +10161,7 @@
 		"feared" : "false",
 		"hated" : "false"},
 	"biology" : {
-		"bodily structure" : "Bipedal",
+		"bodily structure" : "Near-Human",
 		"size" : "Average",
 		"biology type" : "Mammal",
 		"diet" : "Omnivore",
