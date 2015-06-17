@@ -102,31 +102,39 @@ def generate_species(social_status)
 end
 
 def select_species(preferences)
-#  puts "Human prefs are " + preferences[:human_prefs].to_s
+  # If no species match the requirements, say so
+  if @all_species.length == 0
+    return ["No Species Matching Criteria", ""]
+  end
   species_probabilities = adjust_by_rarity(preferences[:rarity_weighting], preferences[:species_probs], preferences[:region], preferences[:human_prefs])
+  # Sums the various probabilities, giving the total weight
   total = 0.0
   species_probabilities.each do |name, prob|
     total += prob
   end
-  # If no species match the requirements, say so
-  if total > 0.0
-    rng = Random.new.rand(total)      
-    last_name = ""
-    temp = 0.0
-    species_probabilities.each do |name, prob|
-      if (temp >= rng)
-  #      puts "Human Probability is " + species_probabilities["Human"].to_s + " out of " + total.to_s
-  #      puts "Twi'lek Probability is" + species_probabilities["Twi'lek"].to_s + " out of " + total.to_s
-  #      puts "Winner was " + last_name + " at " + species_probabilities[last_name].to_s + " out of " + total.to_s
-        return [last_name, @all_species.where(:name => last_name).take().wiki_link]
-      else
-        last_name = name
-        temp += prob
-      end
+  
+  # Generate random number within the total
+  rand_num = Random.new.rand(total)
+  subtotal = 0.0
+  # Go through the list
+  for i in 0...species_probabilities.length do
+    STDERR.puts("Seeing if number is between " << subtotal.to_s << " and " << (species_probabilities.values[i] + subtotal).to_s)
+    range = subtotal...(subtotal + species_probabilities.values[i])
+    if range.cover? rand_num
+      return [species_probabilities.keys[i], @all_species.where(:name => species_probabilities.keys[i]).take().wiki_link]
     end
-  else
-    return ["None Matching", ""]
+    subtotal += species_probabilities.values[i]  
   end
+  
+  # If we got here, something went wrong and I want it logged
+  tmp = ""
+  last = "0"
+  for i in 0...species_probabilities.length do
+    tmp << last << " to " << (last.to_f + species_probabilities.values[i]).to_s << ": " << species_probabilities.keys[i] << "\n"
+    last = (last.to_f + species_probabilities.values[i]).to_s
+  end
+  STDERR.puts tmp
+  STDERR.puts "Random number was " + rand_num.to_s
 end
 
 # Generates the basic distribution, with all species at equal probability

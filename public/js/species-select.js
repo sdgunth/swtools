@@ -109,7 +109,7 @@ function generateSpecies(num) {
 		console.log(data);
 		console.log(data.length);
 		for (i = 0; i < num; i++) {
-			selections.push($('<p><a href="http://starwars.wikia.com/wiki/' + data[i][1] + '" target="_blank">' + data[i][0] + '</a></p>'));
+			selections.push($('<p><a href="' + data[i][1] + '" target="_blank">' + data[i][0] + '</a></p>'));
 		}
 		if ($("#results_panel").length == 0) {
 			$("#num_results_button").before($('<div id="results_panel" class="panel panel-primary"><div class="panel-heading">Results</div><div class="panel-body"></div></div>'));

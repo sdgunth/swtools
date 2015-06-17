@@ -40,9 +40,9 @@ species_array.each do |i|
     "Unknown Regions" => rarity['unknown regions']
   }
   if i['wiki link']
-    new_spec[:wiki_link] = 'http://starwars.wikia.com/wiki' + i['wiki link']
+    new_spec[:wiki_link] = 'http://starwars.wikia.com/wiki/' + i['wiki link']
   else
-    new_spec[:wiki_link] = 'http://starwars.wikia.com/wiki' + i['name']
+    new_spec[:wiki_link] = 'http://starwars.wikia.com/wiki/' + i['name']
   end
   new_spec.save
 end
