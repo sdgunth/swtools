@@ -1,5 +1,7 @@
 var social_statuses = ['Liked', 'Respected', 'Beloved', 'Enslaved', 'Denigrated', 'Feared', 'Hated', 'Neutral', 'Mysterious'];
 
+var already_heightfixed = [];
+
 // Enables the sliders (#rarity_weight and #human_prefs)
 $(document).ready(function() {
 	// Rarity weight slider
@@ -26,33 +28,48 @@ $(document).ready(function() {
 	$("#human_prefs_slider .slider-tick-label-container").attr("style", "margin-left: -87.5px;");
 });
 
-// Makes the dropdown buttons work (#location_select_button and #num_results_button)
+// Makes the dropdown buttons work
 $(document).ready(function() {
-	// Location Select button
-	$regions = $("#location_select_button > ul").children();
-	$regions.click(function() {
-		$("#selected_region").text($(this).contents().text());
-	});
-	
-	// Num Results button
-	$regions = $("#num_results_button > ul").children();
-	$regions.click(function() {
-		$("#number_of_results").text($(this).contents().text());
+	$buttons = $("div.btn-group > ul.dropdown-menu");
+	$buttons.each(function(index, value) {
+		$list = $(value).children();
+		$list.click(function() {
+			$(value).parent().find("span:first").text($(this).contents().text());	
+		});
 	});
 });
 
 // Enables the switches
 $(document).ready(function() {
-	for (var i = 0; i < social_statuses.length; i++) {
-		var temp = social_statuses[i].toLowerCase();
-		$("#" + temp + "_forced_radio").bootstrapSwitch();
-		$("#" + temp + "_disabled_radio").bootstrapSwitch();
-	}
-//	var $liked_forced_checkbox = $("#liked_forced_checkbox").bootstrapSwitch();
-//	var $liked_disabled_checkbox = $("#liked_disabled_checkbox").bootstrapSwitch();
-//	$("#liked_forced_checkbox").click(function() {
-//		if $("#liked_disabled_checkbox").
-//	});
+	$switches = $(".bs-switch");
+	$switches.each(function(value, index) {
+		$(index).bootstrapSwitch()
+	});
+	
+	// Handles the ___ Matters switches
+	$("[id$='_matters_checkbox']").on('switchChange.bootstrapSwitch', function(event, state) {
+		console.log('Switch changed');
+		$siblings = $("[class*='bootstrap-switch-id-'][class*='_matters_checkbox'] ~ div > button");
+		$siblings.each(function(key, value) {
+			if (state) {
+				$(value).prop("disabled", false);
+			} else {
+				$(value).prop("disabled", true);
+			}
+		});
+	});
+});
+
+// Enables the checkbox buttons
+$(document).ready(function() {
+	$(".btn-group.btn-checkbox-group > .btn.btn-default").click(function() {
+		var $this = $(this);
+		if ($this.val() == "true") {
+			$this.val("false");
+		} else {
+			$this.val("true");
+		}
+	});
 });
 
 // Enables the generate button
@@ -61,6 +78,38 @@ $(document).ready(function() {
 		var generated = generateSpecies(Number($("#number_of_results").text()));
 	});
 });
+
+
+//Enables things that need to fire when a tab is shown
+$(document).ready(function() {
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function(tab) {
+		var $opened_tab = $(tab.target).attr("href");
+		panelHeightfix($opened_tab);
+	});
+});
+
+// Heightfix for tabs
+function panelHeightfix(parent_element) {
+	var $heightfix = $(parent_element).find(".panel-heightfix:visible");
+	$heightfix.each(function(index, value) {
+		console.log($(value).children('.panel-body').outerHeight(false));
+		if ($.inArray(value, already_heightfixed) == -1) {
+			// Add 30px to account for vertical padding of body
+			var body_height = $(value).children(".panel-body").outerHeight(false);
+			console.log("Setting height to " + body_height);
+			console.log($(value));
+			$(value).height(body_height);
+			already_heightfixed.push(value);
+			// Fix for bootstrap switches not immediately having the correct size
+			if ($(value).find(".bootstrap-switch").length > 0) {
+				setTimeout(function() {
+					body_height = $(value).children(".panel-body").outerHeight(false)
+					$(value).height(body_height);
+				}, 100);
+			}
+		}
+	});
+}
 
 function socialStatus() {
 	// True if the trait in the key-value pair has no deciding factors, false otherwise

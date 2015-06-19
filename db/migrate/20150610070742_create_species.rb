@@ -18,12 +18,15 @@ class CreateSpecies < ActiveRecord::Migration
       t.boolean :mysterious
       t.boolean :neutral
 
+      t.string :bodily_structure
       t.string :size
+      t.string :biology_type
       t.string :diet
       t.string :genders
       t.float :males_per_female
       t.string :force_sensitivity
       t.string :lifespan
+      
       t.string :home_region
       t.string :home_region_rarity
       t.string :wiki_link

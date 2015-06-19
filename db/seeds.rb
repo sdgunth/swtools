@@ -19,6 +19,8 @@ species_array.each do |i|
   new_spec[:hated] = social['hated']
   new_spec[:neutral] = social['neutral']
   new_spec[:mysterious] = social['mysterious']
+  new_spec[:bodily_structure] = bio['bodily structure']
+  new_spec[:biology_type] = bio['biology type']
   new_spec[:size] = bio['size']
   new_spec[:diet] = bio['diet']
   new_spec[:genders] = bio['genders']

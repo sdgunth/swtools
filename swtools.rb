@@ -38,7 +38,7 @@ get '/generators/species-select' do
   erb :species_select
 end
 
-# TODO: Figure out why occasionally it gives 'object object' to the browser
+# Target for AJAX calls to select a species
 get '/api/generators/species-select' do
   rarity_weight = params[:rarity_prefs].to_i
   galactic_location = params[:galactic_location].to_s
@@ -140,7 +140,7 @@ end
 
 # rarity_factor is an integer, indicating how strongly weighting toward rarity should be a thing
 # species_probabilities is the hash containing relative distribution of each species
-# human_rarity is either "Ubiquitous" (40% flat), "Common" (Twi'lek rarity), or "None" (None)
+# human_rarity is either '2' (40% flat), '1' (Twi'lek rarity), or '0' (None)
 def adjust_by_rarity(rarity_factor, species_probabilities, region, human_rarity)
 #  puts "Human Rarity is" + human_rarity.to_s
   total = 0.0
@@ -157,10 +157,10 @@ def adjust_by_rarity(rarity_factor, species_probabilities, region, human_rarity)
       total += @rarity_coefficients[effective_rarity]**(rarity_factor/3.0)
     end
   end
-  # Set human rarity to 40% after the fact
+  # Don't adjust human rarity if humans can't be chosen
   unless species_probabilities["Human"] == nil
+    # Sets human rarity to 40% of the total weighting
     if human_rarity == '2'
-  #    puts "Multiplying human rarity by " + (total * 2.0/3.0).to_s + " of a possible " + total.to_s
       species_probabilities["Human"] *= total*(2.0/3.0)
     # Set humans to Twi'lek rarity if that's the setting selected
     elsif human_rarity == '1'
