@@ -49,7 +49,8 @@ $(document).ready(function() {
 	// Handles the ___ Matters switches
 	$("[id$='_matters_checkbox']").on('switchChange.bootstrapSwitch', function(event, state) {
 		console.log('Switch changed');
-		$siblings = $("[class*='bootstrap-switch-id-'][class*='_matters_checkbox'] ~ div > button");
+		id = $(this).attr('id');
+		$siblings = $("[class*='bootstrap-switch-id-" + id + "'] ~ div > button");
 		$siblings.each(function(key, value) {
 			if (state) {
 				$(value).prop("disabled", false);
@@ -133,6 +134,91 @@ function socialStatus() {
 	return results;
 }
 
+function bioType() {
+	var $buttons = $("#biology_type_checkboxes").children();
+	var prefs = [];
+	$buttons.each(function(index, value) {
+		prefs.push($(value).val());
+	});
+	return prefs;
+}
+
+function bodilyStructure() {
+	var $buttons = $("#bodily_structure_checkboxes").children();
+	var prefs = [];
+	$buttons.each(function(index, value) {
+		prefs.push($(value).val());
+	});
+	return prefs;	
+}
+
+function size() {
+	var prefs = [];
+	prefs.push($("#size_matters_checkbox").bootstrapSwitch('state'));
+	var comp_text = $("#size_comparison_button > button > span:first-child").text();
+	if (comp_text != "(Select)") {
+		prefs.push(comp_text);
+	} else {
+		prefs[0] = false;
+		prefs.push("=");
+	}
+	var size_text = $("#sizes_button > button > span:first-child").text();
+	if (size_text != "(Select)") {
+		prefs.push(size_text);
+	} else {
+		prefs[0] = false;
+		prefs.push("Average");
+	}
+	return prefs;
+}
+
+function diet() {
+	var $buttons = $("#diet_checkboxes").children();
+	var prefs = [];
+	$buttons.each(function(index, value) {
+		prefs.push($(value).val());
+	});
+	return prefs;	
+}
+
+function genders() {
+	var $buttons = $("#genders_checkboxes").children();
+	var prefs = [];
+	$buttons.each(function(index, value) {
+		prefs.push($(value).val());
+	});
+	return prefs;	
+}
+
+function forceSensitivity() {
+	var $buttons = $("#force_sensitivity_checkboxes").children();
+	var checkboxes = [];
+	$buttons.each(function(index, value) {
+		checkboxes.push($(value).val());
+	});
+	var is_bias = true;
+	if ($("#selected_force_sensitivity_bias").text() == "(Select)" || $("#selected_force_sensitivity_bias").text() == "No Bias") {
+		is_bias = false;
+	}
+	var prefs = {"frequencies" : checkboxes,
+				"bias_presence" : is_bias,
+				"bias" : $("#force_sensitivity_bias").text()};
+	return prefs;	
+}
+
+function lifespan() {
+	var prefs = {
+		"lifespan_matters": $("#lifespan_matters_checkbox").bootstrapSwitch('state'),
+		"lifespan_comparator": $("#selected_lfiespan_comparator").text(),
+		"lifespan_text": $("#selected_lifespan").text()
+	};
+	return prefs;
+}
+
+function gender() {
+	
+}
+
 function generateSpecies(num) {
 	var selections = [];
 	var get_url = "/api/generators/species-select";
@@ -147,7 +233,13 @@ function generateSpecies(num) {
 		"human_prefs": $("#human_prefs").slider('getValue'),
 		"galactic_location": galactic_region,
 		"num_species": num,
-		"social_statuses": socialStatus()
+		"social_statuses": socialStatus(),
+		"bio_type": bioType(),
+		"body_structure": bodilyStructure(),
+		"size": size(),
+		"diet": diet(),
+		"force_sensitivity": forceSensitivity(),
+		"lifespan": lifespan()
 	};
 	$.ajax({
 		url: get_url,
