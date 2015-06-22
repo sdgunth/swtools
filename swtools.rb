@@ -88,7 +88,7 @@ def generate_species(social_status)
     end
     args << social_statuses[i].to_s << ' = :' << iterator
     social_hash[iterator.to_sym] = social_restriction_type[i]
-    iterator.next
+    iterator = iterator.next
   end
   
   return Species.where(args, social_hash)
