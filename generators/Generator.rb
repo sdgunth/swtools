@@ -21,10 +21,31 @@ class Generator
   #           Example: {"height" => ['==', 64, 2.0], "weight" => ['>=', 130, 5.0]}.
   #           (Optional)
   def initialize(args)
+    if args[:table] == nil
+      raise ":table is nil"
+      break
+    end
+    if ActiveRecord::Base.connection.table_exists? args[:table]
+      @table = args[:table]
+    else
+      raise "No table by the name #{args[:table]}" 
+    end
     @table = args[:table]
-    @coefficients = args[:coefficients]
-    @required = args[:required]
-    @forbidden = args[:forbidden]
+    if args[:coefficients] == nil
+      @coefficients = args[:coefficients]
+    else
+      @coefficients = {}
+    end
+    if args[:required] == nil
+      @required = {}
+    else
+      @required = args[:required]
+    end
+    if args[:forbidden] == nil
+      @forbidden = {}
+    else
+      @forbidden = args[:forbidden]
+    end
       
     enforce_specified_values
     generate_rarities
@@ -49,7 +70,7 @@ class Generator
       if iterator > 'var_01'
         args << ' and '
       end
-      args << key << ' = :' << iterator
+      args << "#{key} != :#{iterator}"
       sym_hash[iterator.to_sym] = value
       iterator = iterator.next
     end
@@ -58,7 +79,7 @@ class Generator
       if iterator > 'var_01'
         args << ' and '
       end
-      args << key << ' != :' << iterator
+      args << "#{key} != :#{iterator}"
       sym_hash[iterator.to_sym] = value
       iterator = iterator.next
     end
@@ -153,10 +174,10 @@ class Generator
         return arg1.send(comparator, arg2)
       # If it's a range, check inclusion
       elsif comparator.class == Range
-        return (comparator.include? arg) 
+        return (comparator.cover? arg) 
       end
     end
     # If we got to here, there was a problem - raise an exception
-    raise ('Tried to compare ' + args.to_s + ' to ' +  + ' - Invalid comparison')
+    raise ("Tried to compare #{arg} to #{other_args[0]} with comparator #{comparator} - Invalid comparison")
   end
 end
