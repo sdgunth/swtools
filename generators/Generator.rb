@@ -7,19 +7,29 @@ class Generator
   #
   # :table - The class name of the table being pulled (e.g. Species or Clients).
   #           Absolutely required. The class will break without it.
+  #
   # :required - A hash of the specific required column values in the pulled rows.
   #           Example: {"city" => "Seattle", "currently_subscribed" => true}. 
   #           (Optional)
+  #
   # :restricted - a hash of the specific disallowed column values in the pulled rows.
   #           Example: {"last_name" => "Smith"} 
   #           (Optional)
+  #
   # :coefficients - A hash of arrays, carrying the probability weightings of given
   #           column values. array[0] is the comparator (==, >, >=, <=, <, .., ...)
   #           as a string, array[1] is the desired value (in the case of a range
   #           comparator, it is instead an array with [range_bottm, range_top]), 
-  #           array[2] is the probability multiplier.
+  #           array[2] is the probability multiplier.           
   #           Example: {"height" => ['==', 64, 2.0], "weight" => ['>=', 130, 5.0]}.
   #           (Optional)
+  #
+  # :supported_comparables - A hash of arrays, carrying the database name of the
+  #           trait to be compared and a hash of its possible values, ordered 
+  #           smallest to largest.
+  #           Example: {"Height" => ["Short", "Average", "Tall"]}
+  #           (Optional)
+  #
   def initialize(args)
     if args[:table] == nil
       raise ":table is nil"
@@ -45,6 +55,11 @@ class Generator
       @forbidden = {}
     else
       @forbidden = args[:forbidden]
+    end
+    if args[:supported_comparables] == nil
+      @supported_comparable_traits = {}
+    else
+      @supported_comparable_traits = args[:supported_comparabls]
     end
       
     enforce_specified_values
@@ -149,35 +164,76 @@ class Generator
   # comparison functions. Overrides of this class MUST support all comparators
   # used in @coefficients.]
   def compare_values(comparator, arg, *other_args)
-    supported_comparators = ['<', :<, '<=', :<=, '==', :==, '>=', :>=, '>', :>]
-    vals = [nil, nil]
-    args = [arg]
-    # Adds additional arguments if there are any
-    if other_args.length > 0
-      args << other_args[0]
-    end
-    # Checks both arguments, setting vals as needed
-    args.each_index do |i|
-      case args[i].class
-      when Fixnum, Float
-        vals[i] == args[i]
-      when String
-        unless args[i].to_f == 0.0 && args[i] != '0' && args[i] != '0.0'
-          vals[i] == args[i]
+    def compare_values(comparator, arg, *other_args)
+      # If being given a range
+      if comparator.class == Range
+        trait = nil
+        # Iterate through supported comparable traits, figuring out which one is
+        # being looked into
+        @supported_comparable_traits.each do |key, val|
+          val.include?(arg) ? (trait = key) : nil
+        end
+        # Make sure that the arg and the comparator are from the SAME trait
+        if ((@supported_comparable_traits[trait].include? comparator.begin) && 
+            (@supported_comparable_traits[trait].include? comparator.end))
+          # Make sure the range conversion is the right level of exclusivity
+          if comparator.exlude_end?
+            converted_range = get_int_val(comparator.begin)...get_int_val(comparator.end)
+          else
+            converted_range = get_int_val(comparator.begin)..get_int_val(comparator.end)
+          end
+          return (converted_range.cover? @supported_comparable_traits[trait].index(arg))
+        else
+          raise("#{arg} is not between #{comparator.begin} and #{comparator.end}")
+        end
+      elsif arg.boolean?
+        if other_args[0].boolean?
+          return arg.send(comparator, other_args[0])
+        else
+          raise("Tried to compare a boolean to a not-boolean")
+        end
+      elsif arg.class == String
+        if arg.to_S
+        # Otherwise, check and make sure that the args are from the same trait
+        elsif (@supported_comparable_traits[trait].include? arg &&
+            @supported_comparable_traits[trait].include?(other_args[0]))
+            # Compare their indexes
+           return get_int_val(arg).send(comparator, get_int_val(other_args[0]))
+        else
+          raise "Error: #{arg} and #{other_args[0]} are not both found in one category"
         end
       end
+      raise("Something went wrong! Attempted to evaluate #{arg} (#{arg.class})" << 
+            "#{comparator} (#{comparator.class}) #{other_args[0]} (#{other_args[0].class})")
     end
-    # Vals will only include a nil if the inputs were not a mixture of float, fixnum, and convertable integer
-    unless vals.include? nil
-      # If it's one of the common set of comparators, run the operation directly
-      if supported_comparators.include? comparator
-        return arg1.send(comparator, arg2)
-      # If it's a range, check inclusion
-      elsif comparator.class == Range
-        return (comparator.cover? arg) 
+    
+    # Internal: Takes a String value and finds its numerical equivalent (array index)
+    # from @supported_comparable_traits
+    def get_int_val(string)
+      correct_key = nil
+      @supported_comparable_traits.each do |key, val|
+        if val.include? string
+          correct_key = key
+        end
+      end
+      if correct_key
+        return @supported_comparable_traits[key].find_index(string)
+      else
+        raise "Error: #{string} is not recognized as a comparable trait"
       end
     end
-    # If we got to here, there was a problem - raise an exception
-    raise ("Tried to compare #{arg} to #{other_args[0]} with comparator #{comparator} - Invalid comparison")
+    
+    # Internal: Takes a string and returns the number value if it is a number
+    # (e.g. "Two" returns 2.0, "7.23" returns 7.23)
+    def int_conversion
+      
+    end
+  end
+end
+
+# Internal: Monkey patches object to check if a value is boolean
+class Object
+  def boolean?
+    self.is_a?(FalseClass) || self.is_a?(TrueClass)
   end
 end
