@@ -3,9 +3,13 @@ require 'bundler/setup'
 require 'sinatra'
 require 'json'
 require 'sinatra/content_for'
+require 'sass'
+require 'bootstrap-sass'
+require 'sass/plugin/rack'
 
 Bundler.require
 
+# Improves error messaging
 configure :development do
   require 'better_errors'
   use BetterErrors::Middleware
@@ -13,7 +17,9 @@ configure :development do
   # within the application:
   BetterErrors.application_root = File.expand_path('..', __FILE__)
 end
-  
+
+# Points it at SQLite3 if it's local, or whatever the remote DB type is otherwise
+# (on Heroku this will be PostGreSQL)
 if ENV['DATABASE_URL']
   ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
 else
@@ -23,6 +29,11 @@ else
     :encoding => 'utf8'
   )
 end
+
+# Sass inclusion
+Sass::Plugin.options[:style] = :compressed
+Sass::Plugin.options[:css_location] = './public/css'
+use Sass::Plugin::Rack
 
 require './models/Species'
 

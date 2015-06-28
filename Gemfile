@@ -8,6 +8,8 @@ gem 'sinatra-contrib'
 gem 'sinatra-flash'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'json'
+gem 'sass'
+gem 'bootstrap-sass'
 
 group :development do
 	gem 'sqlite3', '>= 1.3.9'

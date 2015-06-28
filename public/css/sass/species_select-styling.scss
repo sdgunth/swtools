@@ -1,0 +1,70 @@
+@import "styling-variables";
+
+.tab-pane {
+    div {
+        .panel:first-child,
+        div .panel:first-child {
+            margin-top: 15px;
+        }
+    }
+}
+
+#rarity_weight_slider,
+#human_prefs_slider {
+    width: 350px;
+}
+
+.slider-tick {
+    opacity: 1.0;
+}
+.slider-tick-label {
+    color: $text-bright;
+    width: auto;
+    height: auto;
+}
+
+.btn-group {
+    .btn.btn-default.dropdown.single-button-dropdown {
+        background-color: darken($contents-bg, 3%);
+        color: $text-bright;
+        border-radius: 10px;
+        border-width: 2px;
+        border-color: $header-bg;
+        
+        &:hover {
+            background-color: lighten($contents-bg, 5%);
+        }
+    }
+    .dropdown-menu {
+        background-color: darken($contents-bg, 5%);
+        border-color: $important-header-bg;
+        border-width: 2px;
+        
+        li {
+            a {
+                color: $text-bright;
+            }
+            a:hover {
+                background-color: lighten($contents-bg, 5%);
+            }
+        }
+    }
+}
+
+.bootstrap-switch {
+    .bootstrap-switch-handle-on.bootstrap-switch-primary {
+        color: $text-bright;
+        background: darken($contents-bg, 3%) none repeat scroll 0% 0%;
+    }
+    .bootstrap-switch-handle-on.bootstrap-switch-default,
+    .bootstrap-switch-handle-off.bootstrap-switch-default {
+        color: $text-bright;
+        background: lighten($contents-bg, 23%);
+    }
+    .bootstrap-switch-label {
+        background: lighten($contents-bg, 6%) none repeat scroll 0% 0%;
+    }
+    &.bootstrap-switch-wrapper {
+        border: 2px solid $important-header-bg;
+    }
+}

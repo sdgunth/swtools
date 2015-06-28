@@ -2,7 +2,6 @@
 <html lang="en">
 	<head>
 		<%= yield_content :page_title %>
-		<link rel="stylesheet" href="/css/bootstrap.css">
 		<link rel="stylesheet" href="/css/bootstrap-switch.min.css">
 		<link rel="stylesheet" href="/css/layout-styling.css">
 		<%= yield_content :extra_stylesheets %>
@@ -17,7 +16,7 @@
 		</style>
 	</head>
 <body>
-	<nav class="navbar" role="navigation">
+	<nav class="navbar navbar-default" role="navigation">
 		<ul class="nav navbar-nav">
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Generators<span class="caret"></span></a>

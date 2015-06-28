@@ -1,0 +1,208 @@
+/*body {
+	max-width: none;
+	color: #929696;
+	background-color: #1B1B1B;
+}
+.navbar {
+	max-width: none;
+	background-color: #1A5086;
+	}
+.navbar-right {
+	margin-right: 15px;
+}
+.navbar-nav li a {
+	color: #FFFFFF;
+}
+.navbar-nav li a:hover {
+	color: #12375B;
+} 
+.panel {
+	background-color: #2A2A2A;
+	border: 2px solid transparent;
+	text-align: center;
+	box-sizing: border-box;
+	position: relative;
+} 
+.panel-body > .panel.panel-primary:first-child {
+	margin-top: 0px
+}
+.panel-body > .panel-primary:last-child {
+	margin-bottom: 0px;
+} 
+.panel-primary > .panel-heading,
+.panel-primary > .panel-leftheading {
+	background-color: #1E3E5D;  Handled for not-leftheading 
+	border-color: #1E3E5D; 
+	text-align: left;
+} 
+.panel-primary {
+	border-color: #1E3E5D;
+}
+.super-panel > .panel-heading,
+.super-panel > .panel-leftheading {
+	background-color: #1A5086;
+	border-color: #1A5086;
+}
+.super-panel {
+	border-color: #1A5086;
+}
+.super-panel > .panel-body {
+	padding-bottom: 0px;
+} 
+
+.panel-heading.panel-leftheading {
+    padding: 10px 15px;
+    border-right: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+    float:left;
+    height:100%;
+    width: 100px;
+    position:absolute; 
+}
+.panel-leftheading > div {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+} 
+
+.panel-body.panel-rightbody {
+    float:left;
+   	padding-left: 115px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: inline-block;
+    width: 100%;
+}    
+
+.btn-default {
+	background-color: #3A3A3A;*/
+	/*border-color: #3A3A3A;*/
+	/*color: #FFFFFF;
+} 
+.btn-default:disabled {
+	opacity: 0.1;
+	background-color: #3A3A3A;
+	border-color: #3A3A3A;
+	color: #FFFFFF;
+} 
+.input-group-addon {
+	background-color: #3A3A3A;
+	border-color: #3A3A3A;
+	color: #FFFFFF;
+} 
+.btn-group.btn-checkbox-group >  .btn.btn-default {
+	border-color: #1E3E5D;
+	border-width: 2px;
+}
+.btn-group.btn-checkbox-group > .btn[value="false"],
+.btn-group.btn-checkbox-group > .btn[value="false"]:focus {
+	background-color: #1B1B1B;
+	color: #FFFFFF;
+}
+.btn-group.btn-checkbox-group > .btn[value="true"],
+.btn-group.btn-checkbox-group > .btn[value="true"]:focus {
+	background-color: #1A5086;
+	color: #FFFFFF;
+}
+.btn-group.btn-checkbox-group > .btn.btn-default[value="true"]:hover,
+.btn-group.btn-checkbox-group > .btn.btn-default[value="false"]:hover {
+	background-color: #DDDDDD;
+	color: #1B1B1B;
+} 
+.input-group {
+	margin-bottom: 2px;
+}
+.radio-inline {
+	color: #B9BCBC;
+}
+.nav-tabs > li > a {
+	background-color: #1E3E5D;
+	margin-right: 5px;
+	color: #FFFFFF;
+} 
+.nav-tabs {
+	border-bottom: 1px solid #1E3E5D;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+	background-color: #1A5086;
+	border-color: #1A5086;
+	color: #FFFFFF;
+} */
+.layered-tab {
+	margin-top: 15px;
+}
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+ 			display: block;    
+}
+.nav-dropdown-menu {
+	background-color: #1A5086;
+}
+.dropdown-submenu {
+ 			position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+
+.dropdown-menu:before {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 4000px;
+	left: -1000px;
+}
+
+.dropdown > .dropdown-menu, 
+.dropdown > .dropdown-menu > .dropdown-submenu > .dropdown-menu {
+	background-color: #1A5086;
+	border: 1px solid #1B1B1B;
+}
+button.btn > span.caret {
+	margin-left: 5px;
+}

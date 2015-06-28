@@ -1,0 +1,221 @@
+@import "styling-variables";
+@import "bootstrap-custom";
+
+// Body
+.body {
+    max-width: none;
+}
+
+// Navbars
+.navbar {
+   max-width: none; 
+}
+.navbar-right {
+    margin-right: 15px;
+}
+
+// Panels
+.panel {
+    border: 2px solid $header-bg;
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+}
+.panel-primary {
+    > .panel-heading,
+    > .panel-leftheading {
+        background-color: $header-bg;
+        border-color: $header-bg;
+        text-align: left;
+    }
+}
+.panel-heading {
+    &.panel-leftheading {
+        padding: 10px 15px;
+        border-right: 1px solid transparent;
+        border-bottom: 1px solid transparent;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 2px;
+        border-top-left-radius: 2px;
+        float: left;
+        height: 100%;
+        width: 100px;
+        position: absolute;
+        
+        > div {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+}
+.panel-body {
+    > .panel-primary {
+        :first-child {
+            margin-top: 0px;
+        }
+        
+        :last-child {
+            margin-bottom: 0px;
+        }
+    }
+    &.panel-rightbody {
+        float: left;
+        padding-left: 115px;
+        padding-right: 15px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        display: inline-block;
+        width: 100%;
+    }
+}
+.super-panel {
+    border-color: $important-header-bg;
+    
+    > .panel-heading,
+    > .panel-leftheading {
+        background-color: $important-header-bg;        
+    }
+    
+    > .panel-body {
+        padding-bottom: 0px;
+    }
+}
+// Button groups
+.btn-group {
+    &.btn-checkbox-group {
+        > .btn-btn-default {
+            border-color: $header-bg;
+            border-width: 2px;
+        }
+        
+        > .btn[value="false"],
+        > .btn[value="false"]:focus {
+            background-color: darken($contents-bg, 5%);
+            color: $text-bright;
+        }
+        
+        > .btn[value="true"],
+        > .btn[value="true"]:focus {
+            background-color: $important-header-bg;
+            color: $text-bright;
+        }
+        
+        > .btn.btn-default[value="true"]:hover,
+        > .btn.btn-default[value="false"]:hover {
+            background-color: #DDDDDD;
+            color: darken($contents-bg, 5%);
+        }
+    }
+}
+// Input groups
+.input-group {
+    margin-bottom: 2px;
+}
+// Radio
+.radio-inline {
+    color: lighten($contents-bg, 55%);
+}
+// Nav Tabs
+.nav-tabs {
+    border-bottom: 1px solid $header-bg;
+    
+    > li {
+        > a {
+            background-color: $header-bg;
+            margin-right: 5px;
+            color: $text-bright;
+        }
+    }
+    
+    > li.active {
+        > a,
+        > a:hover,
+        > a:focus {
+            color: $text-bright;
+        }
+    }
+}
+.layered-tab {
+    margin-top: 15px;
+}
+// Dropdowns
+.dropdown {
+    > .dropdown-menu, 
+    > .dropdown-menu > .dropdown-submenu > .dropdown-menu {
+        background-color: $important-header-bg;
+        border: 1px solid darken($contents-bg, 5%);
+    } 
+}
+ul.nav {
+    li.dropdown:hover {
+        > ul.dropdown-menu {
+            display: block;
+        }
+    }
+}
+.nav-dropdown-menu {
+    background-color: $important-header-bg;
+}
+// TODO: Find a cleaner way to do this
+.dropdown-menu {
+    &:before {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 4000px;
+        left: -1000px;
+    }
+}
+.dropdown-submenu {
+    position: relative;
+    
+    > .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -6px;
+        margin-left: -1px;
+        @include border-radius(0px 6px 6px 6px);
+    }
+    
+    &:hover {
+        .dropdown-menu {
+            display: block;
+        }
+        > a:after {
+            border-left-color: #FFFFFF;
+        }
+    }
+    
+    > a:after {
+        display: block;
+        content: " ";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #CCCCCC;
+        margin-top: 5px;
+        margin-right: -10px;
+    }
+    
+    &.pull-left {
+        float: none;
+        
+        > .dropdown-menu {
+            left: -100%;
+            margin-left: 10px;
+            @include border-radius(6px 0px 6px 6px);
+        }
+    }
+}
+
+// Dropdown buttons
+button.btn {
+    span.caret {
+        margin-left: 5px;
+    }
+}

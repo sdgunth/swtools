@@ -1,0 +1,54 @@
+// Color variables to be reused a lot
+
+//Backgrounds
+    $header-bg: #1E3E5D;
+    $important-header-bg: scale-color($header-bg, $saturation: 19%, $lightness: 10%);
+    $contents-bg: #2A2A2A;
+    
+//Text
+    $text-bright: #FFFFFF;
+    $text-normal: #929696;
+
+//Bootstrap variable setting
+    // Sets the base background and text color variables
+        $body-bg: darken($contents-bg, 5%);
+        $text-color: $text-normal;
+        
+    // Button variables
+        $btn-default-bg: lighten($contents-bg, 10%);
+        $btn-default-border: lighten($contents-bg, 10%);
+        $btn-default-color: $text-bright;
+        
+    // Input variables
+    // Evaluate if things look wonky
+        $input-bg: $header-bg;
+        $input-bg-disabled: darken($contents-bg, 5%);
+        $input-color: lighten($text-normal, 15%);
+        $input-border: lighten($contents-bg, 10%);
+    
+    //Navbars
+        $navbar-default-bg: lighten($header-bg, 10%);
+        $navbar-default-color: $text-bright;
+        $navbar-default-link-color: $text-bright;
+        $navbar-default-link-hover-color: $text-bright;
+        $navbar-default-link-hover-bg: lighten($navbar-default-bg, 15%);
+        
+    // Nav tabs
+       $nav-tabs-active-link-hover-border-color: lighten($header-bg, 10%);
+       $nav-tabs-link-hover-border-color: lighten($header-bg, 10%);
+       $nav-tabs-active-link-hover-color: lighten($header-bg, 10%);
+       $nav-tabs-active-link-hover-bg: lighten($header-bg, 10%);
+       
+    // Panels
+       $panel-bg: $contents-bg;
+       $panel-border-radius: 5px;
+       $panel-primary-border: $header-bg;
+       $panel-primary-heading-bg: $header-bg;
+       
+// Mixins
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
