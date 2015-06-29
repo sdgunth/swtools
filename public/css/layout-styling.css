@@ -5570,6 +5570,10 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
   bottom: 0;
   width: 4000px;
   left: -1000px; }
+.dropdown-menu > li > a {
+  color: #FFFFFF; }
+.dropdown-menu > li > a:hover {
+  color: #2d2f2f; }
 
 .dropdown-submenu {
   position: relative; }

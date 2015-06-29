@@ -167,6 +167,15 @@ ul.nav {
         width: 4000px;
         left: -1000px;
     }
+    
+    > li {
+        > a {
+            color: $text-bright;
+        }
+        > a:hover {
+            color: darken($text-normal, 40%);
+        }
+    }
 }
 .dropdown-submenu {
     position: relative;
