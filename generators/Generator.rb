@@ -157,8 +157,8 @@ class Generator
   end
   
   # Internal: This is the method used to compare values by this function. It
-  # currently supports only Floats, Fixnums, and easily-coerce-able Strings 
-  # (decimal strings)
+  # supports Numerics and Strings contained in arrays arranged in ascending
+  # order in @supported_comparable_traits
   # 
   # Most Generator extensions will want to override this with their own
   # comparison functions. Overrides of this class MUST support all comparators
@@ -202,6 +202,9 @@ class Generator
         else
           raise "Error: #{arg} and #{other_args[0]} are not both found in one category"
         end
+      # If the arg is a number, direct comparison is fine
+      elsif arg.is_a? Numeric
+        return arg.send(comparator, other_args[0])
       end
       raise("Something went wrong! Attempted to evaluate #{arg} (#{arg.class})" << 
             "#{comparator} (#{comparator.class}) #{other_args[0]} (#{other_args[0].class})")
@@ -229,11 +232,13 @@ class Generator
       
     end
   end
-end
+  
 
-# Internal: Monkey patches object to check if a value is boolean
-class Object
-  def boolean?
-    self.is_a?(FalseClass) || self.is_a?(TrueClass)
+
+  # Internal: Monkey patches object to check if a value is boolean
+  class Object
+    def boolean?
+      self.is_a?(FalseClass) || self.is_a?(TrueClass)
+    end
   end
 end

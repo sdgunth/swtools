@@ -25,6 +25,8 @@ else
 end
 
 require './models/Species'
+require './generators/Generator'
+require './generators/SWSpeciesSelector'
 
 before do
   @rarity_coefficients = {"Ubiquitous" => 768.0, "Pervasive" => 384.0, "Common" => 192.0, "Uncommon" => 48.0, "Rare" => 16.0, "Super Rare" => 8.0, "Near-Mythical" => 1.0}
@@ -54,6 +56,10 @@ get '/api/generators/species-select' do
   STDERR.puts @chosen.to_s
   content_type :json
   @chosen.to_json
+end
+
+def species_selection(args)
+  
 end
 
 # Generates species, ensuring restrictions are followed
