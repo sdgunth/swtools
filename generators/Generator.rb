@@ -124,7 +124,7 @@ class Generator
       ranges << subtotal...(subtotal + value)
       subtotal += value
     end
-    rand_num = Random.new.rand(ranges[-1].end)
+    rand_num = Random.new.rand(ranges[ranges.length-1].end)
     ranges.each do |i|
       if i.cover? rand_num
         return @list.where(id: i.id)
@@ -222,18 +222,12 @@ class Generator
         raise "Error: #{string} is not recognized as a comparable trait"
       end
     end
-    
-    # Internal: Takes a string and returns the number value if it is a number
-    # (e.g. "Two" returns 2.0, "7.23" returns 7.23)
-    def int_conversion
-      
-    end
   end
-end
 
-# Internal: Monkey patches object to check if a value is boolean
-class Object
-  def boolean?
-    self.is_a?(FalseClass) || self.is_a?(TrueClass)
+  # Internal: Monkey patches object to check if a value is boolean
+  class Object
+    def boolean?
+      self.is_a?(FalseClass) || self.is_a?(TrueClass)
+    end
   end
 end
