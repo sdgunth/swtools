@@ -381,7 +381,8 @@
 		"outer rim territories" : "Near-Mythical",
 		"wild space" : "Near-Mythical",
 		"tingel arm" : "Near-Mythical",
-		"unknown regions" : "Near-Mythical"}
+		"unknown regions" : "Near-Mythical"},
+	"wiki link" : "Balosar_(Species)"
 },
 {
 	"name" : "Barabel",
@@ -4930,7 +4931,8 @@
 		"outer rim territories" : "Uncommon",
 		"wild space" : "Uncommon",
 		"tingel arm" : "Uncommon",
-		"unknown regions" : "Rare"}
+		"unknown regions" : "Rare"},
+	"wiki link" : "Yaga_(Species)"
 },
 {
 	"name" : "Xi Charrian",
