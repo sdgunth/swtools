@@ -8,6 +8,12 @@
 	<link rel="stylesheet" href="/css/crawl-styling.css">
 <% end %>
 
+<% content_for :extra_css do %>
+	body {
+		background-image: url(/img/starfield.jpg);
+	}
+<% end %>
+
 <% content_for :more_js do %>
 	<script src="/js/crawl.js"></script>
 <% end %>
