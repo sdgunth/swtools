@@ -1,5 +1,7 @@
 // Original belongs to Tim Pietrusky, I'm just playing with his toys
 
+@import "compass/css3";
+
 @import url(http://fonts.googleapis.com/css?family=News+Cycle:400,700);
 
 html,
@@ -67,13 +69,13 @@ body {
   	text-align: justify;
 	  overflow: hidden;
     transform-origin: 50% 100%;
-    @include transform(perspective(300px) rotateX(25deg));
-  
+    @include transform(perspective(400px) rotateX(25deg));
+   
     > div {
 	    position: absolute;
 	    top: 100%;
 	    animation: titles 81s linear 13s;
-    
+	    
       > p {
 	      margin: 1.35em 0 1.85em 0;
         line-height: 1.35em;
@@ -137,4 +139,10 @@ body {
     top: 20%; 
     opacity: 0;
   }
+}
+.starwars {
+	section.paused,
+	section.paused > div {
+		@include animation-play-state(paused);
+	}
 }

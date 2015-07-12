@@ -1,7 +1,15 @@
-/** Original belongs to Tim Pietrusky, I'm just playing with his toys */
+<!-- Original belongs to Tim Pietrusky, I'm just playing with his toys -->
 
 <% content_for :page_title do %>
 <title>Star Wars Tools - Crawl Viewer - Name</title>
+<% end %>
+
+<% content_for :extra_stylesheets do %>
+	<link rel="stylesheet" href="/css/crawl-styling.css">
+<% end %>
+
+<% content_for :more_js do %>
+	<script src="/js/crawl.js"></script>
 <% end %>
 
 <article class="starwars">
@@ -20,11 +28,11 @@
    
   <div class="animation">
     
-  <section class="intro">
+  <section class="intro paused">
     A long time ago, in a galaxy far,<br> far away....
   </section>
     
-  <section class="titles">
+  <section class="titles paused">
     <div contenteditable="true" spellcheck="false">  
       <p>
         It is a period of civil war.
@@ -56,7 +64,7 @@
       </div>
   </section>
   
-  <section class="logo">
+  <section class="logo paused">
 <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="693.615px" height="419.375px" viewBox="0 0 693.615 419.375" enable-background="new 0 0 693.615 419.375"
 	 xml:space="preserve">

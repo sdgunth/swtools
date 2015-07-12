@@ -6,8 +6,11 @@ require 'sinatra/content_for'
 require 'sass'
 require 'bootstrap-sass'
 require 'sass/plugin/rack'
+require 'compass-core'
 
 Bundler.require
+
+require './config/environments'
 
 # Improves error messaging
 configure :development do
@@ -20,15 +23,15 @@ end
 
 # Points it at SQLite3 if it's local, or whatever the remote DB type is otherwise
 # (on Heroku this will be PostGreSQL)
-if ENV['DATABASE_URL']
-  ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
-else
-  ActiveRecord::Base.establish_connection(
-    :adapter => 'sqlite3',
-    :database => 'db/development.db',
-    :encoding => 'utf8'
-  )
-end
+#if ENV['DATABASE_URL']
+#  ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
+#else
+#  ActiveRecord::Base.establish_connection(
+#    :adapter => 'postgresql',
+#    :database => 'db/development.db',
+#    :encoding => 'utf8'
+#  )
+#end
 
 # Sass inclusion
 Sass::Plugin.options[:style] = :compressed
@@ -43,6 +46,10 @@ end
 
 get '/' do
   erb :frontpage
+end
+
+get '/crawl/view' do
+  erb :crawl
 end
 
 get '/generators/species-select' do
