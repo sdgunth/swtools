@@ -1,7 +1,7 @@
 <!-- Original belongs to Tim Pietrusky, I'm just playing with his toys -->
 
 <% content_for :page_title do %>
-<title>Star Wars Tools - Crawl Viewer - Name</title>
+<title>Star Wars Tools - Crawl Viewer - <%= @crawl_name %></title>
 <% end %>
 
 <% content_for :extra_stylesheets do %>
@@ -18,11 +18,9 @@
     <source src="http://s.cdpn.io/1202/Star_Wars_original_opening_crawl_1977.mp3" type="audio/mpeg" />
   </audio>
   
-  <section class="start">
+  <section class="start" style="z-index: 10">
     <p>
-      Start <br> <span>Star Wars opening crawl</span> <br> from 1977
-      <br>
-      <span>Remake by Tim Pietrusky</span>
+      Start <br> <span><%= @crawl_name %></span> <br>
     </p>
   </section>
    
@@ -33,35 +31,13 @@
   </section>
     
   <section class="titles paused">
-    <div contenteditable="true" spellcheck="false">  
-      <p>
-        It is a period of civil war.
-        Rebel spaceships, striking
-        from a hidden base, have won
-        their first victory against
-        the evil Galactic Empire.
-      </p>
-
-      <p>
-        During the battle, Rebel
-        spies managed to steal secret
-        plans to the Empire's
-        ultimate weapon, the DEATH
-        STAR, an armored space
-        station with enough power to
-        destroy an entire planet.
-      </p>
-
-      <p>
-        Pursued by the Empire's
-        sinister agents, Princess
-        Leia races home aboard her
-        starship, custodian of the
-        stolen plan that can save
-        her people and restore
-        freedom to the galaxy....
-      </p>
-      </div>
+    <div>  
+    	<% @crawl_contents.each do |par| %>
+    	<p>
+    		<%= par %>
+    	</p>
+    	<% end %>
+  	</div>
   </section>
   
   <section class="logo paused">

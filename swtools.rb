@@ -8,6 +8,7 @@ require 'bootstrap-sass'
 require 'sass/plugin/rack'
 require 'compass-core'
 
+
 Bundler.require
 
 require './config/environments'
@@ -39,6 +40,7 @@ Sass::Plugin.options[:css_location] = './public/css'
 use Sass::Plugin::Rack
 
 require './models/Species'
+require './models/Crawls'
 
 before do
   @rarity_coefficients = {"Ubiquitous" => 768.0, "Pervasive" => 384.0, "Common" => 192.0, "Uncommon" => 48.0, "Rare" => 16.0, "Super Rare" => 8.0, "Near-Mythical" => 1.0}
@@ -48,8 +50,47 @@ get '/' do
   erb :frontpage
 end
 
-get '/crawl/view' do
-  erb :crawl
+get '/crawls/make' do
+  erb :makecrawl
+end
+
+post '/crawls/make' do
+  new_crawl = Crawls.new
+  new_crawl.name_verbose = "#{params[:crawlname]}"
+  split_name = "#{params[:crawlname]}".downcase.split(/\s/)
+  short_name = ""
+  split_name.each_with_index do |val, index|
+    short_name << val
+    if index < split_name.length-1
+      short_name << '_'
+    end
+  end
+  new_crawl.name = short_name
+  new_crawl.contents = "#{params[:contents]}"
+  new_crawl.save
+end
+
+get '/crawls/view/all' do
+  if params['offset'] 
+    @offset = params['offset'].to_i
+  else
+    @offset = 0
+  end
+  @num_crawls = Crawls.count
+  @crawls = Crawls.limit(10).offset(@offset)
+  erb :allcrawls
+end
+
+get '/crawls/view/:crawlname' do
+  if Crawls.exists?(:name => "#{params[:crawlname]}")
+    the_crawl = the_crawl = Crawls.where(:name => "#{params[:crawlname]}").take
+    content = the_crawl.contents
+    @crawl_contents = content.split(/$/)
+    @crawl_name = the_crawl.name_verbose
+    erb :crawl
+  else
+    redirect to('/crawls/view/all')
+  end
 end
 
 get '/generators/species-select' do

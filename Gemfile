@@ -6,7 +6,6 @@ gem "rake"
 gem "tux"
 gem 'sinatra-contrib'
 gem 'sinatra-flash'
-gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'json'
 gem 'sass'
 gem 'bootstrap-sass'
