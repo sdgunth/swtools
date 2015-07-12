@@ -48,3 +48,16 @@ species_array.each do |i|
   end
   new_spec.save
 end
+
+new_crawl = Crawls.new
+new_crawl.contents = "It is a period of civil war. Rebel spaceships, striking from a " <<
+    "hidden base, have won their first victory against the evil Galactic Empire.\n" << 
+    "During the battle, Rebel spies managed to steal secret plans to the Empire's " <<
+    "ultimate weapon, the DEATH STAR, an armored space station with enough power to " <<
+    "destroy an entire planet.\n" <<
+    "Pursued by the Empire's sinister agents, Princess Leia races home aboard her " <<
+    "starship, custodian of the stolen plan that can save her people and restore " <<
+    "freedom to the galaxy...."
+new_crawl.name = "a_new_hope_intro"
+new_crawl.name_verbose = "A New Hope Intro"
+new_crawl.save

@@ -7038,6 +7038,9 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
   background-color: #205282;
 }
 
+.dropdown-menu {
+  color: #FFFFFF;
+}
 .dropdown-menu:before {
   position: absolute;
   top: 0;
