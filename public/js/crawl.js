@@ -42,7 +42,7 @@ function toggleAnimation() {
 
 function startCrawl() {
 	$(".start").fadeOut();
-	toggleTheme();
+	warsTheme.play();
 	toggleAnimation();
 }
 
