@@ -13,6 +13,8 @@ Bundler.require
 
 require './config/environments'
 
+require_relative 'ffgsw/talent_functions'
+
 # Improves error messaging
 configure :development do
   require 'better_errors'
@@ -48,6 +50,13 @@ end
 
 get '/' do
   erb :frontpage
+end
+
+get '/talenttreetest' do
+  @args_arr = pass_parsed_talent
+  @svg_locs = gen_svg_paths(@args_arr[0].length, @args_arr[1].length)
+  @sizing = pass_width_height
+  erb :talent_trees
 end
 
 get '/crawls/make' do

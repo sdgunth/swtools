@@ -25,8 +25,6 @@ GEM
       execjs
       json
     backports (3.6.4)
-    bcrypt-ruby (3.0.1)
-    bcrypt-ruby (3.0.1-x86-mingw32)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -45,11 +43,11 @@ GEM
     i18n (0.7.0)
     json (1.8.3)
     minitest (4.7.5)
-    multi_json (1.11.0)
+    multi_json (1.11.2)
     pg (0.18.2)
     pg (0.18.2-x86-mingw32)
     pg-hstore (1.2.0)
-    rack (1.6.1)
+    rack (1.6.4)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
@@ -63,7 +61,7 @@ GEM
       rack (>= 1.0)
       rack-test (~> 0.6.2)
       ripl (>= 0.7.0)
-    sass (3.4.15)
+    sass (3.4.16)
     shotgun (0.9.1)
       rack (>= 1.0)
     sinatra (1.4.6)
@@ -73,7 +71,7 @@ GEM
     sinatra-activerecord (2.0.6)
       activerecord (>= 3.2)
       sinatra (~> 1.0)
-    sinatra-contrib (1.4.4)
+    sinatra-contrib (1.4.6)
       backports (>= 2.0)
       multi_json
       rack-protection
@@ -98,7 +96,6 @@ PLATFORMS
 DEPENDENCIES
   activerecord (= 4.0.4)
   activerecord-postgres-hstore
-  bcrypt-ruby (~> 3.0.0)
   better_errors
   bootstrap-sass
   compass-core

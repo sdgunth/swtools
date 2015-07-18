@@ -1,0 +1,43 @@
+<% content_for :page_title do %>
+<title>Star Wars Tools - Random Species Selector</title>
+<% end %>
+
+<% content_for :extra_stylesheets do %>
+	<link rel="stylesheet" href="/css/talent_tree-styling.css">
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700' rel='stylesheet' type='text/css'>
+<% end %>
+
+<% content_for :more_js do %>
+	<script src="/js/talent_trees.js"></script>
+<% end %>
+
+<% content_for :defs_stuff do %>
+<% end %>
+
+<div class="col-lg-12" id="test2" style="margin:10px">
+	<svg width="<%= @sizing[0] %>" height="<%= @sizing[1] %>">
+		<!-- Outer segment of box -->
+		<polygon class="talent-border borderless" points="<%= arr_to_path(@svg_locs[:outline]) %>"></polygon>
+		<!-- Inner filler to mimic border -->
+		<polygon class="talent-filler borderless" points="<%= arr_to_path(@svg_locs[:contents]) %>" stroke-width="0"></polygon>
+		
+		<!-- Title box for one-line titles -->
+		<polygon class="title-box borderless passive" points="<%= arr_to_path(@svg_locs[:title_box]) %>" fill="#FFCC00"></polygon>
+		<!-- Checkbox -->
+		<polygon class="talent-checkbox borderless" points="<%= arr_to_path(@svg_locs[:checkbox]) %>"></polygon>
+		<!-- Checkbox detailing -->
+		<polygon class="talent-checkbox borderless" points="<%= arr_to_path(@svg_locs[:checkbox_details]) %>"></polygon>
+		<!-- Test title text -->
+		<% for i in 0...@args_arr[0].length %>
+			<text class="title-text active" x="<%= @svg_locs[:title][0][0] %>" y="<%= @svg_locs[:title][0][1] %>" dy="<%= i*24 %>"><%= @args_arr[0][i] %></text>	
+		<% end %>
+		<!-- Cost box -->
+		<polygon class="cost-box borderless passive" points="<%= arr_to_path(@svg_locs[:cost_box]) %>"></polygon>
+		<!-- Test cost text -->
+		<text class="cost-text active" x="<%= @svg_locs[:cost][0][0] %>" y="<%= @svg_locs[:cost][0][1] %>" width="158" height="auto">Cost <%= @args_arr[2] %></text>
+		<!-- Test contents text -->
+		<% for i in 0...@args_arr[1].length %>
+			<text <%= i == @args_arr[1].length-1 ? '' : 'textLength="190"' %> lengthAdjust="spacing" font-size="14" dy="<%= i*15 %>" font-family="Roboto" font-weight="400" x="<%= @svg_locs[:text][0][0] %>" y="<%= @svg_locs[:text][0][1] %>"><%= @args_arr[1][i] %></text>
+		<% end %>
+	</svg>
+</div>

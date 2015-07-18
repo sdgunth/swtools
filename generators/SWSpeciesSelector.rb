@@ -30,7 +30,16 @@ class SWSpeciesSelector < Generator
   #             
   #           Example: {"height" => ['==', 64, 2.0], "weight" => ['>=', 130, 5.0]}.
   #           (Optional)
-  # 
+  # :galactic_location - A string, carrying the galactic location of where the gen
+  #           is being performed. 
+  #    
+  #           Example: "Deep Core"
+  # :rarity_weightings - An array, carrying the various rarity weighting data needed
+  #           for calculations. Indexes are organized as follows:
+  #           [0] = human rarity setting, either 0 (no humans), 1 (twi'lek rarity),
+  #                 or 2 (40% humans)
+  #           [1] = rarity weighting slider - default rarity weightings are raised
+  #                 to the power of this number over 3
   def initialize(args)
     if args[:table] == nil
       raise ":table is nil"
@@ -57,6 +66,7 @@ class SWSpeciesSelector < Generator
     else
       @forbidden = args[:forbidden]
     end
+    
       
     enforce_specified_values
     generate_rarities
@@ -70,21 +80,19 @@ class SWSpeciesSelector < Generator
   # overwritten.
   def combine_multipliers(row)
     @coefficients.each do |key, val|
-      if r
-        
+      matches = nil
+      if val[0] == '..'
+        matches = compare_values(val[1][0]..val[1][1], row[key])
+      elsif val[0] == '...'  
+        matches = compare_values(val[1][0]...val[1][1], row[key])
       else
-        matches = nil
-        if val[0] == '..'
-          matches = compare_values(val[1][0]..val[1][1], row[key])
-        elsif val[0] == '...'  
-          matches = compare_values(val[1][0]...val[1][1], row[key])
-        else
-          matches = compare_values(val[0], row[key])
-        end
-        if matches
-          @probabilities[row.id] *= val[2]
-        end
+        matches = compare_values(val[0], row[key])
       end
+      if matches
+          @probabilities[row.id] *= val[2]
+      end
+      
+      # TODO Handle location & rarity multipliers
     end
   end
 end

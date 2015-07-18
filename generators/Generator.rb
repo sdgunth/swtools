@@ -148,7 +148,7 @@ class Generator
       elsif val[0] == '...'  
         matches = compare_values(val[1][0]...val[1][1], row[key])
       else
-        matches = compare_values(val[0], row[key])
+        matches = compare_values(val[0], val[1], [row[key]])
       end
       if matches
         @probabilities[row.id] *= val[2]
@@ -162,65 +162,63 @@ class Generator
   # 
   # Most Generator extensions will want to override this with their own
   # comparison functions. Overrides of this class MUST support all comparators
-  # used in @coefficients.]
+  # used in @coefficients.
   def compare_values(comparator, arg, *other_args)
-    def compare_values(comparator, arg, *other_args)
-      # If being given a range
-      if comparator.class == Range
-        trait = nil
-        # Iterate through supported comparable traits, figuring out which one is
-        # being looked into
-        @supported_comparable_traits.each do |key, val|
-          val.include?(arg) ? (trait = key) : nil
-        end
-        # Make sure that the arg and the comparator are from the SAME trait
-        if ((@supported_comparable_traits[trait].include? comparator.begin) && 
-            (@supported_comparable_traits[trait].include? comparator.end))
-          # Make sure the range conversion is the right level of exclusivity
-          if comparator.exlude_end?
-            converted_range = get_int_val(comparator.begin)...get_int_val(comparator.end)
-          else
-            converted_range = get_int_val(comparator.begin)..get_int_val(comparator.end)
-          end
-          return (converted_range.cover? @supported_comparable_traits[trait].index(arg))
-        else
-          raise("#{arg} is not between #{comparator.begin} and #{comparator.end}")
-        end
-      elsif arg.boolean?
-        if other_args[0].boolean?
-          return arg.send(comparator, other_args[0])
-        else
-          raise("Tried to compare a boolean to a not-boolean")
-        end
-      elsif arg.class == String
-        if arg.to_S
-        # Otherwise, check and make sure that the args are from the same trait
-        elsif (@supported_comparable_traits[trait].include? arg &&
-            @supported_comparable_traits[trait].include?(other_args[0]))
-            # Compare their indexes
-           return get_int_val(arg).send(comparator, get_int_val(other_args[0]))
-        else
-          raise "Error: #{arg} and #{other_args[0]} are not both found in one category"
-        end
+    # If being given a range
+    if comparator.class == Range
+      trait = nil
+      # Iterate through supported comparable traits, figuring out which one is
+      # being looked into
+      @supported_comparable_traits.each do |key, val|
+        val.include?(arg) ? (trait = key) : nil
       end
-      raise("Something went wrong! Attempted to evaluate #{arg} (#{arg.class})" << 
-            "#{comparator} (#{comparator.class}) #{other_args[0]} (#{other_args[0].class})")
+      # Make sure that the arg and the comparator are from the SAME trait
+      if ((@supported_comparable_traits[trait].include? comparator.begin) && 
+          (@supported_comparable_traits[trait].include? comparator.end))
+        # Make sure the range conversion is the right level of exclusivity
+        if comparator.exlude_end?
+          converted_range = get_int_val(comparator.begin)...get_int_val(comparator.end)
+        else
+          converted_range = get_int_val(comparator.begin)..get_int_val(comparator.end)
+        end
+        return (converted_range.cover? @supported_comparable_traits[trait].index(arg))
+      else
+        raise("#{arg} is not between #{comparator.begin} and #{comparator.end}")
+      end
+    elsif arg.boolean?
+      if other_args[0].boolean?
+        return arg.send(comparator, other_args[0])
+      else
+        raise("Tried to compare a boolean to a not-boolean")
+      end
+    elsif arg.class == String
+      if arg.to_s
+      # Otherwise, check and make sure that the args are from the same trait
+      elsif (@supported_comparable_traits[trait].include? arg &&
+          @supported_comparable_traits[trait].include?(other_args[0]))
+          # Compare their indexes
+         return get_int_val(arg).send(comparator, get_int_val(other_args[0]))
+      else
+        raise "Error: #{arg} and #{other_args[0]} are not both found in one category"
+      end
     end
+    raise("Something went wrong! Attempted to evaluate #{arg} (#{arg.class})" << 
+          "#{comparator} (#{comparator.class}) #{other_args[0]} (#{other_args[0].class})")
+  end
     
     # Internal: Takes a String value and finds its numerical equivalent (array index)
     # from @supported_comparable_traits
-    def get_int_val(string)
-      correct_key = nil
-      @supported_comparable_traits.each do |key, val|
-        if val.include? string
-          correct_key = key
-        end
+  def get_int_val(string)
+    correct_key = nil
+    @supported_comparable_traits.each do |key, val|
+      if val.include? string
+        correct_key = key
       end
-      if correct_key
-        return @supported_comparable_traits[key].find_index(string)
-      else
-        raise "Error: #{string} is not recognized as a comparable trait"
-      end
+    end
+    if correct_key
+      return @supported_comparable_traits[key].find_index(string)
+    else
+      raise "Error: #{string} is not recognized as a comparable trait"
     end
   end
 
