@@ -21,6 +21,7 @@ If that were all it did, however, it wouldn't be nearly as useful! By default, r
 I took [Tim Pietrusky's starting point](http://codepen.io/TimPietrusky/pen/eHGfj), replaced the JavaScript, tweaked the CSS, and expanded the project. Currently, you can make a custom Star Wars-style opening crawl, save it, and then load it later at any time, as well as view the list of all created crawls.
 
 [View all Crawls](http://swtools.herokuapp.com/crawls/view/all)
+
 [Make a Crawl](http://swtools.herokuapp.com/crawls/make)
 
 ##### To Do
