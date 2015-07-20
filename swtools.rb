@@ -13,6 +13,8 @@ Bundler.require
 
 require './config/environments'
 
+require_relative 'generators/SWSpeciesSelector'
+
 require_relative 'ffgsw/talent_functions'
 
 # Improves error messaging
@@ -24,18 +26,6 @@ configure :development do
   BetterErrors.application_root = File.expand_path('..', __FILE__)
 end
 
-# Points it at SQLite3 if it's local, or whatever the remote DB type is otherwise
-# (on Heroku this will be PostGreSQL)
-#if ENV['DATABASE_URL']
-#  ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
-#else
-#  ActiveRecord::Base.establish_connection(
-#    :adapter => 'postgresql',
-#    :database => 'db/development.db',
-#    :encoding => 'utf8'
-#  )
-#end
-
 # Sass inclusion
 Sass::Plugin.options[:style] = :compressed
 Sass::Plugin.options[:css_location] = './public/css'
@@ -43,10 +33,6 @@ use Sass::Plugin::Rack
 
 require './models/Species'
 require './models/Crawls'
-
-before do
-  @rarity_coefficients = {"Ubiquitous" => 768.0, "Pervasive" => 384.0, "Common" => 192.0, "Uncommon" => 48.0, "Rare" => 16.0, "Super Rare" => 8.0, "Near-Mythical" => 1.0}
-end
 
 get '/' do
   erb :frontpage
@@ -108,137 +94,87 @@ end
 
 # Target for AJAX calls to select a species
 get '/api/generators/species-select' do
-  rarity_weight = params[:rarity_prefs].to_i
-  galactic_location = params[:galactic_location].to_s
-  human_prefs = params[:human_prefs]
-    puts human_prefs
-    puts human_prefs.class
+  num_results = params[:num_species]
+  STDERR.puts(params)
+  restrict = {}
+  required = {}
+  STDERR.puts(params[:social_statuses].to_s)
+  if params[:social_statuses] != ''
+    if params[:social_statuses]['0']
+      params[:social_statuses]['0'].each_index do |i|
+        required[params[:social_statuses]['0'][i].to_sym] = true
+      end
+    end
+    if params[:social_statuses]['1']
+      params[:social_statuses]['1'].each_index do |i|
+        restrict[params[:social_statuses]['1'][i].to_sym] = true
+      end
+      STDERR.puts(restrict)
+    end
+  end
+  
+  specials = [[:bio_type, :biology_type],
+              [:body_structure, :bodily_structure],
+              [:diet, :diet], 
+              [:force_sensitivity, :force_sensitivity],
+              [:lifespan, :lifespan]]
+  extras = {}              
+  specials.each do |i|
+    case i[0]
+    when :bio_type, :body_structure, :diet
+      tmp = params[i[0]]
+      parse_for_true(tmp)
+      extras[i[1]] = tmp
+    else
+      extras[i[1]] = params[i[0]]
+    end
+  end
+  gen = SWSpeciesSelector.new({
+    :table => Species,
+    :required => required,
+    :forbidden => restrict,
+    :coefficients => {},
+    :rarity_weightings => [params[:human_prefs], params[:rarity_prefs]],
+    :galactic_location => params[:galactic_location],
+    :extra_handling => extras
+  })
   @chosen = []
-  @all_species = generate_species(params[:social_statuses])
-  for i in 0...params[:num_species].to_i
-    species_probs = species_basic_distribution
-    @chosen << select_species({:human_prefs => human_prefs, :rarity_weighting => rarity_weight, :region => galactic_location, :species_probs => species_probs})
+  for i in 0...num_results.to_i
+    spec = gen.choose
+    if spec
+      @chosen << [spec.name, spec.wiki_link]
+    else
+      @chosen << ["No Results"]
+    end
   end
   STDERR.puts @chosen.to_s
   content_type :json
   @chosen.to_json
 end
 
-# Generates species, ensuring restrictions are followed
-def generate_species(social_status)
-  parse_for_true(social_status["0"])
-  parse_for_true(social_status["1"])
-  # Parsing social status variables
-  social_statuses = [:liked, :respected, :beloved, :enslaved, :denigrated, :feared, :hated, :neutral, :mysterious]
-  is_social_freedom = social_status["0"]
-  social_restriction_type = social_status["1"]
-
-  # If there are no restrictions, return all the species
-  if ((is_social_freedom.include? false) == false)
-    return Species.all
-  end
-  
-  # Leave only the restrictions to be used
-  while is_social_freedom.include? true
-    ind = is_social_freedom.index(true)
-    social_statuses.delete_at(ind)
-    social_restriction_type.delete_at(ind)
-    is_social_freedom.delete_at(ind)
-  end
-  
-  # Make the social restrictions hash
-  args = ''
-  social_hash = {}
-  iterator = 'var_01'
-  social_statuses.each_index do |i|
-    if i > 0
-      args << ' and '
-    end
-    args << social_statuses[i].to_s << ' = :' << iterator
-    social_hash[iterator.to_sym] = social_restriction_type[i]
-    iterator = iterator.next
-  end
-  
-  return Species.where(args, social_hash)
-end
-
-def select_species(preferences)
-  # If no species match the requirements, say so
-  if @all_species.length == 0
-    return ["No Species Matching Criteria", ""]
-  end
-  species_probabilities = adjust_by_rarity(preferences[:rarity_weighting], preferences[:species_probs], preferences[:region], preferences[:human_prefs])
-  # Sums the various probabilities, giving the total weight
-  total = 0.0
-  species_probabilities.each do |name, prob|
-    total += prob
-  end
-  
-  # Generate random number within the total
-  rand_num = Random.new.rand(total)
-  subtotal = 0.0
-  # Go through the list
-  for i in 0...species_probabilities.length do
-    range = subtotal...(subtotal + species_probabilities.values[i])
-    if range.cover? rand_num
-      return [species_probabilities.keys[i], @all_species.where(:name => species_probabilities.keys[i]).take().wiki_link]
-    end
-    subtotal += species_probabilities.values[i]  
-  end
-  
-  # If we got here, something went wrong and I want it logged
-  tmp = ""
-  last = "0"
-  for i in 0...species_probabilities.length do
-    tmp << last << " to " << (last.to_f + species_probabilities.values[i]).to_s << ": " << species_probabilities.keys[i] << "\n"
-    last = (last.to_f + species_probabilities.values[i]).to_s
-  end
-  STDERR.puts tmp
-  STDERR.puts "Random number was " + rand_num.to_s
-end
-
-# Generates the basic distribution, with all species at equal probability
-def species_basic_distribution
-  species_probabilities = {}
-  @all_species.each do |i|
-    species_probabilities[i.name] = 1.0
-  end
-  return species_probabilities
-end
-
-# rarity_factor is an integer, indicating how strongly weighting toward rarity should be a thing
-# species_probabilities is the hash containing relative distribution of each species
-# human_rarity is either '2' (40% flat), '1' (Twi'lek rarity), or '0' (None)
-def adjust_by_rarity(rarity_factor, species_probabilities, region, human_rarity)
-#  puts "Human Rarity is" + human_rarity.to_s
-  total = 0.0
-  # Iterate through all the species
-  @all_species.each do |i|
-    # Ignore this if it's humans
-    unless i.name == "Human"
-      home = i.home_region
-      effective_rarity = i.rarities_by_region[home]
-      # Multiply the probability of finding the species by the appropriate rarity coefficient for the region
-      mult = @rarity_coefficients[effective_rarity]**(rarity_factor/3.0)
-      species_probabilities[i.name] *= mult
-      # Keep track of the total weighting
-      total += @rarity_coefficients[effective_rarity]**(rarity_factor/3.0)
-    end
-  end
-  # Don't adjust human rarity if humans can't be chosen
-  unless species_probabilities["Human"] == nil
-    # Sets human rarity to 40% of the total weighting
-    if human_rarity == '2'
-      species_probabilities["Human"] *= total*(2.0/3.0)
-    # Set humans to Twi'lek rarity if that's the setting selected
-    elsif human_rarity == '1'
-      species_probabilities["Human"] *= @rarity_coefficients["Ubiquitous"]**(rarity_factor/3.0)
-    # Set humans to 0 rarity otherwise
+# If possible, provide one restriction factor for the SQL query; others go in 
+# an array to be handled later
+def split_reqs(param)
+  STDERR.puts("splitting " + param.to_s)
+  arr = []
+  restriction = nil
+  # If true, required value; if false, restricted value
+  restriction_type = false
+  STDERR.puts(param.count(false).to_s + " falses")
+  if param.count(false) > 0
+    STDERR.puts(param.count(true).to_s + " trues")
+    if param.count(true) == 1
+      restriction = param[param.index(true)]
+      restriction_type = true
     else
-      species_probabilities["Human"] *= 0.0
+      restriction_type = false
+      restriction = param.slice!(param.index(false))
+      while param.include? false
+        arr << param.slice!(param.index(false))
+      end
     end
   end
-  return species_probabilities
+  return [arr, restriction, restriction_type]
 end
 
 # Converts string values of 'true' and 'True' into boolean 'true' and same for falses

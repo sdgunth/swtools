@@ -33,12 +33,8 @@ class Generator
   def initialize(args)
     if args[:table] == nil
       raise ":table is nil"
-      break
-    end
-    if ActiveRecord::Base.connection.table_exists? args[:table]
+    else      
       @table = args[:table]
-    else
-      raise "No table by the name #{args[:table]}" 
     end
     @table = args[:table]
     if args[:coefficients] == nil
@@ -81,16 +77,17 @@ class Generator
     # Forms an appropriate ActiveRecord query - for the above example, it would
     # call Clients.where('city = :var_01 and subscribed = :var_02', 
     #                    {:var_01 => 'Seattle', :var_02 => true})
-    @required.keys.each do |key, value|
+    @required.each do |key, value|
       if iterator > 'var_01'
         args << ' and '
       end
-      args << "#{key} != :#{iterator}"
+      args << "#{key} = :#{iterator}"
+      STDERR.puts(value)
       sym_hash[iterator.to_sym] = value
       iterator = iterator.next
     end
     
-    @forbidden.keys.each do |key, value|
+    @forbidden.each do |key, value|
       if iterator > 'var_01'
         args << ' and '
       end
@@ -119,15 +116,21 @@ class Generator
   # calling this method.
   def choose
     ranges = []
+    ids = []
     subtotal = 0.0
     @probabilities.each do |key, value|
-      ranges << subtotal...(subtotal + value)
+      ranges << (subtotal...(subtotal + value))
+      ids << key
       subtotal += value
     end
-    rand_num = Random.new.rand(ranges[ranges.length-1].end)
-    ranges.each do |i|
-      if i.cover? rand_num
-        return @list.where(id: i.id)
+    unless ranges.length == 0
+      rand_num = Random.new.rand(ranges[ranges.length-1].end)
+      ranges.each do |i|
+        if i.cover? rand_num
+          ind = ranges.find_index(i)
+          result = @list.where(id: ids[ind]).take
+          return result
+        end
       end
     end
   end
@@ -148,7 +151,7 @@ class Generator
       elsif val[0] == '...'  
         matches = compare_values(val[1][0]...val[1][1], row[key])
       else
-        matches = compare_values(val[0], val[1], [row[key]])
+        matches = compare_values(val[0], row[key], val[1])
       end
       if matches
         @probabilities[row.id] *= val[2]

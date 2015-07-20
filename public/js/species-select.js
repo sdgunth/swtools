@@ -97,8 +97,6 @@ function panelHeightfix(parent_element) {
 		if ($.inArray(value, already_heightfixed) == -1) {
 			// Add 30px to account for vertical padding of body
 			var body_height = $(value).children(".panel-body").outerHeight(false);
-			console.log("Setting height to " + body_height);
-			console.log($(value));
 			$(value).height(body_height);
 			already_heightfixed.push(value);
 			// Fix for bootstrap switches not immediately having the correct size
@@ -130,7 +128,28 @@ function socialStatus() {
 			restriction[i] = false;
 		}
 	}
-	var results = [is_choice, restriction];
+	var sym_social_statuses = ["liked", "respected", "beloved", "enslaved", "denigrated", "feared", "hated", "neutral", "mysterious"];
+
+	// If there aren't any restrictions, save time
+	if (is_choice.indexOf(false) == -1) {
+		return null;
+	}
+	var required = [];
+	var forbidden = [];
+	// Parse down to the ones to be used, return only those
+	while (is_choice.indexOf(false) > -1) {
+		var ind = is_choice.indexOf(false);
+		if (restriction[ind]) {
+			required.push(sym_social_statuses[ind]);
+		} else {
+			forbidden.push(sym_social_statuses[ind]);
+		}
+		sym_social_statuses.splice(ind, 1);
+		is_choice.splice(ind, 1);
+		restriction.splice(ind, 1)
+	}
+	
+	var results = [required, forbidden];
 	return results;
 }
 
@@ -209,14 +228,19 @@ function forceSensitivity() {
 function lifespan() {
 	var prefs = {
 		"lifespan_matters": $("#lifespan_matters_checkbox").bootstrapSwitch('state'),
-		"lifespan_comparator": $("#selected_lfiespan_comparator").text(),
+		"lifespan_comparator": $("#selected_lifespan_comparator").text(),
 		"lifespan_text": $("#selected_lifespan").text()
 	};
 	return prefs;
 }
 
 function gender() {
-	
+	var prefs = {
+		"gender_ratio_matters": $("#gender_ratio_matters_checkbox").bootstrapSwitch('state'),
+		"gender_ratio_comparator": $("#selected_gender_ratio_comparator").text(),
+		"gender_ratio_text": $("#selected_gender_ratio").text()
+	};
+	return prefs;
 }
 
 function generateSpecies(num) {

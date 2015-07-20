@@ -6090,7 +6090,7 @@
 		"unknown regions" : "Rare"}
 },
 {
-	"name" : "Trandosian",
+	"name" : "Trandoshan",
 	"social status" : {
 		"neutral" : "true",
 		"liked" : "false",
@@ -7278,7 +7278,8 @@
 		"outer rim territories" : "Near-Mythical",
 		"wild space" : "Near-Mythical",
 		"tingel arm" : "Near-Mythical",
-		"unknown regions" : "Near-Mythical"}
+		"unknown regions" : "Near-Mythical"},
+	"wiki link" : "Sentient_mynock"
 },
 {
 	"name" : "Selonian",
