@@ -38,9 +38,9 @@ class Generator
     end
     @table = args[:table]
     if args[:coefficients] == nil
-      @coefficients = args[:coefficients]
-    else
       @coefficients = {}
+    else
+      @coefficients = args[:coefficients]
     end
     if args[:required] == nil
       @required = {}
